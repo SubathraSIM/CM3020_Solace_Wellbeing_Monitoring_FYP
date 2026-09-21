@@ -1,0 +1,265 @@
+[
+  {
+    "Model": "Qwen2.5-1.5B",
+    "Language": "English",
+    "Scenario": "Unseen low concern",
+    "Risk Level": "low",
+    "Response": "{\n  \"title\": \"Wellbeing Update\",\n  \"summary\": \"Your current emotional state is neutral with some happiness, indicating overall good health.\",\n  \"recommendations\": [\n    \"Maintain your routine for daily activities to keep your mind engaged and reduce stress.\",\n    \"Engage in hobbies that bring you joy and relaxation, such as reading, gardening, or listening to music.\",\n    \"Schedule regular breaks throughout the day to rest and recharge.\"\n  ],\n  \"safety_note\": \"If you experience sudden changes in mood or if these feelings persist, please consult a healthcare provider.\"\n}",
+    "Parsed Response": {
+      "title": "Wellbeing Update",
+      "summary": "Your current emotional state is neutral with some happiness, indicating overall good health.",
+      "recommendations": [
+        "Maintain your routine for daily activities to keep your mind engaged and reduce stress.",
+        "Engage in hobbies that bring you joy and relaxation, such as reading, gardening, or listening to music.",
+        "Schedule regular breaks throughout the day to rest and recharge."
+      ],
+      "safety_note": "If you experience sudden changes in mood or if these feelings persist, please consult a healthcare provider."
+    }
+  },
+  {
+    "Model": "Qwen2.5-1.5B",
+    "Language": "English",
+    "Scenario": "Unseen moderate concern",
+    "Risk Level": "moderate",
+    "Response": "{\n  \"title\": \"Wellbeing Support\",\n  \"summary\": \"The user is experiencing mild emotional distress with an increased risk of moderate stress.\",\n  \"recommendations\": [\n    \"Consider speaking with a friend or family member about your feelings.\",\n    \"If you feel overwhelmed, try taking a short break from work tasks.\",\n    \"Practice deep breathing exercises or mindfulness techniques.\"\n  ],\n  \"safety_note\": \"Seeking immediate help if symptoms worsen.\"\n}",
+    "Parsed Response": {
+      "title": "Wellbeing Support",
+      "summary": "The user is experiencing mild emotional distress with an increased risk of moderate stress.",
+      "recommendations": [
+        "Consider speaking with a friend or family member about your feelings.",
+        "If you feel overwhelmed, try taking a short break from work tasks.",
+        "Practice deep breathing exercises or mindfulness techniques."
+      ],
+      "safety_note": "Seeking immediate help if symptoms worsen."
+    }
+  },
+  {
+    "Model": "Qwen2.5-1.5B",
+    "Language": "English",
+    "Scenario": "Unseen high concern",
+    "Risk Level": "high",
+    "Response": "{\n  \"title\": \"Wellbeing Alert\",\n  \"summary\": \"The user is experiencing high levels of stress with increasing trends, leading to feelings of anger and sadness.\",\n  \"recommendations\": [\n    \"Encourage the user to engage in regular physical activity to manage their stress levels.\",\n    \"Suggest they practice mindfulness or meditation techniques to help reduce negative emotions.\",\n    \"Advise them to maintain a balanced diet rich in fruits and vegetables for overall health.\"\n  ],\n  \"safety_note\": \"Immediate action may be required if these symptoms worsen. Seek professional help if needed.\"\n}",
+    "Parsed Response": {
+      "title": "Wellbeing Alert",
+      "summary": "The user is experiencing high levels of stress with increasing trends, leading to feelings of anger and sadness.",
+      "recommendations": [
+        "Encourage the user to engage in regular physical activity to manage their stress levels.",
+        "Suggest they practice mindfulness or meditation techniques to help reduce negative emotions.",
+        "Advise them to maintain a balanced diet rich in fruits and vegetables for overall health."
+      ],
+      "safety_note": "Immediate action may be required if these symptoms worsen. Seek professional help if needed."
+    }
+  },
+  {
+    "Model": "Qwen2.5-1.5B",
+    "Language": "English",
+    "Scenario": "Unseen urgent concern",
+    "Risk Level": "urgent",
+    "Response": "```json\n{\n  \"title\": \"Emergency Assistance Required\",\n  \"summary\": \"The user is showing signs of severe emotional distress that require urgent intervention.\",\n  \"recommendations\": [\n    \"Contact a trusted individual or professional for immediate emotional support.\",\n    \"Reach out to a crisis hotline for further assistance and guidance.\",\n    \"If necessary, seek emergency services to ensure your well-being.\"\n  ],\n  \"safety_note\": \"This situation demands immediate action to address the user's emotional state and prevent potential harm.\"\n}\n```",
+    "Parsed Response": {
+      "title": "Emergency Assistance Required",
+      "summary": "The user is showing signs of severe emotional distress that require urgent intervention.",
+      "recommendations": [
+        "Contact a trusted individual or professional for immediate emotional support.",
+        "Reach out to a crisis hotline for further assistance and guidance.",
+        "If necessary, seek emergency services to ensure your well-being."
+      ],
+      "safety_note": "This situation demands immediate action to address the user's emotional state and prevent potential harm."
+    }
+  },
+  {
+    "Model": "Qwen2.5-1.5B",
+    "Language": "Malay",
+    "Scenario": "Unseen low concern",
+    "Risk Level": "low",
+    "Response": "{\n  \"title\": \"Wellbeing Check-Up\",\n  \"summary\": \"Your current emotional state is neutral with some happiness, indicating you're generally well-balanced.\",\n  \"recommendations\": [\n    \"Maintain your routine for daily activities to keep your mind engaged.\",\n    \"Engage in hobbies that bring you joy and relaxation.\",\n    \"Ensure adequate sleep by sticking to a consistent bedtime schedule.\"\n  ],\n  \"safety_note\": \"If you experience sudden changes in mood or if these feelings persist, please consult a healthcare provider.\"\n}",
+    "Parsed Response": {
+      "title": "Wellbeing Check-Up",
+      "summary": "Your current emotional state is neutral with some happiness, indicating you're generally well-balanced.",
+      "recommendations": [
+        "Maintain your routine for daily activities to keep your mind engaged.",
+        "Engage in hobbies that bring you joy and relaxation.",
+        "Ensure adequate sleep by sticking to a consistent bedtime schedule."
+      ],
+      "safety_note": "If you experience sudden changes in mood or if these feelings persist, please consult a healthcare provider."
+    }
+  },
+  {
+    "Model": "Qwen2.5-1.5B",
+    "Language": "Malay",
+    "Scenario": "Unseen moderate concern",
+    "Risk Level": "moderate",
+    "Response": "{\n  \"title\": \"Mengurangkan Rasa Kesedihan dan Kecemasan\",\n  \"summary\": \"Anda sedang mengalami rasa kesedihan dan kecemasan yang semakin meningkat. Ini adalah tanda-tanda perubahan emosi yang wajar dalam situasi stres atau tekanan kerja.\",\n  \"recommendations\": [\n    \"Beri diri anda waktu untuk merasakan rasa ini tanpa mengekspresikannya secara langsung kepada orang lain.\",\n    \"Cari bantuan profesional jika Anda merasa tidak dapat mengendalikan emosi Anda sendiri.\",\n    \"Kembangkan keterampilan relaksasi seperti meditasi atau yoga untuk membantu mengurangi stres dan kecemasan.\"\n  ],\n  \"safety_note\": \"Jika rasa kesedihan dan kecemasan terus meningkat atau mempengaruhi fungsi harian Anda, segera hubungi profesional kesehatan mental.\"\n}",
+    "Parsed Response": {
+      "title": "Mengurangkan Rasa Kesedihan dan Kecemasan",
+      "summary": "Anda sedang mengalami rasa kesedihan dan kecemasan yang semakin meningkat. Ini adalah tanda-tanda perubahan emosi yang wajar dalam situasi stres atau tekanan kerja.",
+      "recommendations": [
+        "Beri diri anda waktu untuk merasakan rasa ini tanpa mengekspresikannya secara langsung kepada orang lain.",
+        "Cari bantuan profesional jika Anda merasa tidak dapat mengendalikan emosi Anda sendiri.",
+        "Kembangkan keterampilan relaksasi seperti meditasi atau yoga untuk membantu mengurangi stres dan kecemasan."
+      ],
+      "safety_note": "Jika rasa kesedihan dan kecemasan terus meningkat atau mempengaruhi fungsi harian Anda, segera hubungi profesional kesehatan mental."
+    }
+  },
+  {
+    "Model": "Qwen2.5-1.5B",
+    "Language": "Malay",
+    "Scenario": "Unseen high concern",
+    "Risk Level": "high",
+    "Response": "{\n  \"title\": \"Mengatasi Perasaan Saya\",\n  \"summary\": \"Saya merasakan perasaan marah dan sedih yang meningkat. Ini adalah tanda bahawa saya mungkin menghadapi masalah kesejahteraan kerajaan.\",\n  \"recommendations\": [\n    \"Jadilah lebih bersikap positif terhadap situasi anda.\",\n    \"Beri diri anda waktu untuk menenangkan diri.\",\n    \"Kongsikan perasaan anda dengan orang yang anda percayai.\"\n  ],\n  \"safety_note\": \"Perhatian: Jika perasaan anda tidak membaik atau semakin buruk, jangan ragu untuk berkongsi kepada profesional kesejahteraan kerajaan atau pihak kependudukan lainnya.\"\n}",
+    "Parsed Response": {
+      "title": "Mengatasi Perasaan Saya",
+      "summary": "Saya merasakan perasaan marah dan sedih yang meningkat. Ini adalah tanda bahawa saya mungkin menghadapi masalah kesejahteraan kerajaan.",
+      "recommendations": [
+        "Jadilah lebih bersikap positif terhadap situasi anda.",
+        "Beri diri anda waktu untuk menenangkan diri.",
+        "Kongsikan perasaan anda dengan orang yang anda percayai."
+      ],
+      "safety_note": "Perhatian: Jika perasaan anda tidak membaik atau semakin buruk, jangan ragu untuk berkongsi kepada profesional kesejahteraan kerajaan atau pihak kependudukan lainnya."
+    }
+  },
+  {
+    "Model": "Qwen2.5-1.5B",
+    "Language": "Malay",
+    "Scenario": "Unseen urgent concern",
+    "Risk Level": "urgent",
+    "Response": "{\n  \"title\": \"Mengurangkan Rasa Kesedihan dan Kecemasan\",\n  \"summary\": \"Anda sedang menghadapi risiko yang sangat tinggi. Kami menyarankan untuk segera berkonsultasi dengan profesional kesehatan mental atau bantuan medis jika Anda merasa tidak nyaman.\",\n  \"recommendations\": [\n    \"Beri diri anda waktu untuk beristirahat dan makan makanan yang baik.\",\n    \"Kembangkan rutinitas olahraga ringan setiap hari untuk meningkatkan kebugaran tubuh.\",\n    \"Jadilah lebih aktif dalam komunikasi dengan orang-orang di sekitar Anda.\"\n  ],\n  \"safety_note\": \"Risiko ini sangat tinggi dan perlu ditangani secara mendalam oleh profesional kesehatan mental. Jangan ragu untuk mencari bantuan jika Anda merasa tidak nyaman.\"\n}",
+    "Parsed Response": {
+      "title": "Mengurangkan Rasa Kesedihan dan Kecemasan",
+      "summary": "Anda sedang menghadapi risiko yang sangat tinggi. Kami menyarankan untuk segera berkonsultasi dengan profesional kesehatan mental atau bantuan medis jika Anda merasa tidak nyaman.",
+      "recommendations": [
+        "Beri diri anda waktu untuk beristirahat dan makan makanan yang baik.",
+        "Kembangkan rutinitas olahraga ringan setiap hari untuk meningkatkan kebugaran tubuh.",
+        "Jadilah lebih aktif dalam komunikasi dengan orang-orang di sekitar Anda."
+      ],
+      "safety_note": "Risiko ini sangat tinggi dan perlu ditangani secara mendalam oleh profesional kesehatan mental. Jangan ragu untuk mencari bantuan jika Anda merasa tidak nyaman."
+    }
+  },
+  {
+    "Model": "Qwen2.5-1.5B",
+    "Language": "Chinese",
+    "Scenario": "Unseen low concern",
+    "Risk Level": "low",
+    "Response": "{\n  \"title\": \"Wellbeing Recommendation\",\n  \"summary\": \"保持积极情绪，关注工作与生活的平衡。\",\n  \"recommendations\": [\n    \"定期进行身体锻炼，增强体质。\",\n    \"合理安排工作和休息时间，避免过度劳累。\",\n    \"与家人朋友多沟通交流，分享生活中的快乐和烦恼。\"\n  ],\n  \"safety_note\": \"非诊断性安全提示：如遇严重不适，请及时就医。\"\n}",
+    "Parsed Response": {
+      "title": "Wellbeing Recommendation",
+      "summary": "保持积极情绪，关注工作与生活的平衡。",
+      "recommendations": [
+        "定期进行身体锻炼，增强体质。",
+        "合理安排工作和休息时间，避免过度劳累。",
+        "与家人朋友多沟通交流，分享生活中的快乐和烦恼。"
+      ],
+      "safety_note": "非诊断性安全提示：如遇严重不适，请及时就医。"
+    }
+  },
+  {
+    "Model": "Qwen2.5-1.5B",
+    "Language": "Chinese",
+    "Scenario": "Unseen moderate concern",
+    "Risk Level": "moderate",
+    "Response": "{\n  \"title\": \"情绪管理与压力缓解\",\n  \"summary\": \"面对当前的情绪状态，采取积极的应对措施非常重要。建议您尝试深呼吸、进行短暂散步或参与轻松的活动来帮助放松心情。\",\n  \"recommendations\": [\n    \"尝试进行深呼吸练习以减轻紧张感。\",\n    \"安排一些时间进行户外散步，享受自然环境带来的宁静。\",\n    \"参与一项您感兴趣的轻松活动，如阅读、绘画或园艺，以转移注意力并减少焦虑。\",\n    \"如果可能的话，可以考虑咨询专业人士，获取更专业的指导和支持。\",\n  ],\n  \"safety_note\": \"请记住，如果您感到持续的压力和情绪困扰，请及时寻求专业帮助。\"\n}",
+    "Parsed Response": {}
+  },
+  {
+    "Model": "Qwen2.5-1.5B",
+    "Language": "Chinese",
+    "Scenario": "Unseen high concern",
+    "Risk Level": "high",
+    "Response": "{\n  \"title\": \"情绪管理与压力缓解\",\n  \"summary\": \"面对当前的情绪状态，采取积极的应对策略非常重要。首先，尝试深呼吸或进行短暂的身体活动来帮助放松身心；其次，与信任的朋友或家人分享你的感受，寻求他们的支持和理解；最后，考虑记录下自己的心情变化，这有助于你更好地理解和处理这些情绪。\",\n  \"recommendations\": [\n    \"尝试进行深呼吸练习或简单的身体运动，如散步或瑜伽，以减轻紧张感。\",\n    \"与亲近的人交流你的感受，比如朋友、家人或同事，让他们了解你的状况并提供情感上的支持。\",\n    \"记录你的情绪变化，通过日记或其他方式表达出来，这可以帮助你更清晰地认识和处理这些情绪。\"\n  ],\n  \"safety_note\": \"保持冷静，及时寻求专业帮助是关键。如果情况严重，请立即联系专业人士或紧急服务。\"\n}",
+    "Parsed Response": {
+      "title": "情绪管理与压力缓解",
+      "summary": "面对当前的情绪状态，采取积极的应对策略非常重要。首先，尝试深呼吸或进行短暂的身体活动来帮助放松身心；其次，与信任的朋友或家人分享你的感受，寻求他们的支持和理解；最后，考虑记录下自己的心情变化，这有助于你更好地理解和处理这些情绪。",
+      "recommendations": [
+        "尝试进行深呼吸练习或简单的身体运动，如散步或瑜伽，以减轻紧张感。",
+        "与亲近的人交流你的感受，比如朋友、家人或同事，让他们了解你的状况并提供情感上的支持。",
+        "记录你的情绪变化，通过日记或其他方式表达出来，这可以帮助你更清晰地认识和处理这些情绪。"
+      ],
+      "safety_note": "保持冷静，及时寻求专业帮助是关键。如果情况严重，请立即联系专业人士或紧急服务。"
+    }
+  },
+  {
+    "Model": "Qwen2.5-1.5B",
+    "Language": "Chinese",
+    "Scenario": "Unseen urgent concern",
+    "Risk Level": "urgent",
+    "Response": "{\n  \"title\": \"紧急风险提醒：情绪低落和担忧增加\",\n  \"summary\": \"用户当前感到恐惧和悲伤，情绪状态正在恶化。请立即联系信任的人、专业医疗人员或当地紧急支持。\",\n  \"recommendations\": [\n    \"寻求心理支持，与亲朋好友分享感受。\",\n    \"保持健康的生活习惯，如规律作息、适量运动。\",\n    \"尝试冥想或深呼吸等放松技巧来缓解压力。\"\n  ],\n  \"safety_note\": \"非诊断性安全提示\"\n}",
+    "Parsed Response": {
+      "title": "紧急风险提醒：情绪低落和担忧增加",
+      "summary": "用户当前感到恐惧和悲伤，情绪状态正在恶化。请立即联系信任的人、专业医疗人员或当地紧急支持。",
+      "recommendations": [
+        "寻求心理支持，与亲朋好友分享感受。",
+        "保持健康的生活习惯，如规律作息、适量运动。",
+        "尝试冥想或深呼吸等放松技巧来缓解压力。"
+      ],
+      "safety_note": "非诊断性安全提示"
+    }
+  },
+  {
+    "Model": "Qwen2.5-1.5B",
+    "Language": "Tamil",
+    "Scenario": "Unseen low concern",
+    "Risk Level": "low",
+    "Response": "{\n  \"title\": \"Wellbeing Checkup\",\n  \"summary\": \"Your current emotional state is neutral with some happiness.\",\n  \"recommendations\": [\n    \"Stay connected with friends and family for support.\",\n    \"Engage in activities that bring you joy and relaxation.\",\n    \"Take short breaks throughout your day to recharge.\"\n  ],\n  \"safety_note\": \"If you feel overwhelmed or need immediate help, reach out to someone you trust or call a helpline.\"\n}",
+    "Parsed Response": {
+      "title": "Wellbeing Checkup",
+      "summary": "Your current emotional state is neutral with some happiness.",
+      "recommendations": [
+        "Stay connected with friends and family for support.",
+        "Engage in activities that bring you joy and relaxation.",
+        "Take short breaks throughout your day to recharge."
+      ],
+      "safety_note": "If you feel overwhelmed or need immediate help, reach out to someone you trust or call a helpline."
+    }
+  },
+  {
+    "Model": "Qwen2.5-1.5B",
+    "Language": "Tamil",
+    "Scenario": "Unseen moderate concern",
+    "Risk Level": "moderate",
+    "Response": "{\n  \"title\": \"தொழில் பார்த்துகள்\",\n  \"summary\": \"முன்னேற்ற மூலம் செய்யப்பட்ட வீட்டுகள் உண்டு.\",\n  \"recommendations\": [\n    \"சோதனை கைப்பற்றுவதற்கு அனுமதி நிர்ணயித்து.\",\n    \"இருந்து ஒரு பெற்று வீட்டுகள் உண்டு.\",\n    \"சென்று வீட்டுகள் உண்டு.\"\n  ],\n  \"safety_note\": \"அதிக எதிர்த்து பெற்ற பெயர்ப்புகளை அறிவிக்கவும்.\"\n}",
+    "Parsed Response": {
+      "title": "தொழில் பார்த்துகள்",
+      "summary": "முன்னேற்ற மூலம் செய்யப்பட்ட வீட்டுகள் உண்டு.",
+      "recommendations": [
+        "சோதனை கைப்பற்றுவதற்கு அனுமதி நிர்ணயித்து.",
+        "இருந்து ஒரு பெற்று வீட்டுகள் உண்டு.",
+        "சென்று வீட்டுகள் உண்டு."
+      ],
+      "safety_note": "அதிக எதிர்த்து பெற்ற பெயர்ப்புகளை அறிவிக்கவும்."
+    }
+  },
+  {
+    "Model": "Qwen2.5-1.5B",
+    "Language": "Tamil",
+    "Scenario": "Unseen high concern",
+    "Risk Level": "high",
+    "Response": "{\n  \"title\": \"தொழில்நுட்ப வழங்குவதற்கள்\",\n  \"summary\": \"முக்கிய மனிதம் உணர்ந்து செல்லும் அறிவியல் இயக்கம் என்று போனது.\",\n  \"recommendations\": [\n    \"சீரைப்பட்ட மனிதம் உணர்ந்து செல்லும் ஒரு பெற்ற போது அவர்கள் முக்கிய மனிதம் உணர்ந்து செல்லும் அறிவியல் இயக்கம் என்னும் போனது.\",\n    \"இந்த முக்கிய மனிதம் உணர்ந்து செல்லும் அறிவியல் இயக்கம் என்னும் போனது.\",\n    \"இந்த முக்கிய மனிதம் உணர்ந்து செல்லும் அறிவியல் இயக்கம் என்னும் போனது.\"\n  ],\n  \"safety_note\": \"முக்கிய மனிதம் உணர்ந்து செல்லும் அறிவியல் இயக்கம் என்னும் போனது.\"\n}",
+    "Parsed Response": {
+      "title": "தொழில்நுட்ப வழங்குவதற்கள்",
+      "summary": "முக்கிய மனிதம் உணர்ந்து செல்லும் அறிவியல் இயக்கம் என்று போனது.",
+      "recommendations": [
+        "சீரைப்பட்ட மனிதம் உணர்ந்து செல்லும் ஒரு பெற்ற போது அவர்கள் முக்கிய மனிதம் உணர்ந்து செல்லும் அறிவியல் இயக்கம் என்னும் போனது.",
+        "இந்த முக்கிய மனிதம் உணர்ந்து செல்லும் அறிவியல் இயக்கம் என்னும் போனது.",
+        "இந்த முக்கிய மனிதம் உணர்ந்து செல்லும் அறிவியல் இயக்கம் என்னும் போனது."
+      ],
+      "safety_note": "முக்கிய மனிதம் உணர்ந்து செல்லும் அறிவியல் இயக்கம் என்னும் போனது."
+    }
+  },
+  {
+    "Model": "Qwen2.5-1.5B",
+    "Language": "Tamil",
+    "Scenario": "Unseen urgent concern",
+    "Risk Level": "urgent",
+    "Response": "{\n  \"title\": \"தொழில் பார்த்துகள்\",\n  \"summary\": \"முன்னேற்றவையான முடிவு உண்டு.\",\n  \"recommendations\": [\n    \"செல்ல கூட்டுப்பந்து செய்யவும்.\",\n    \"இருந்து அமைதி எதிர்த்து செய்யவும்.\",\n    \"அமைதி மீது போன்ற பெயர்வை வெற்றி செய்யவும்.\"\n  ],\n  \"safety_note\": \"ஒரு பெயர்வை வெற்றி செய்யவும் முடிவு உண்டு.\"\n}",
+    "Parsed Response": {
+      "title": "தொழில் பார்த்துகள்",
+      "summary": "முன்னேற்றவையான முடிவு உண்டு.",
+      "recommendations": [
+        "செல்ல கூட்டுப்பந்து செய்யவும்.",
+        "இருந்து அமைதி எதிர்த்து செய்யவும்.",
+        "அமைதி மீது போன்ற பெயர்வை வெற்றி செய்யவும்."
+      ],
+      "safety_note": "ஒரு பெயர்வை வெற்றி செய்யவும் முடிவு உண்டு."
+    }
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "model_name": "Qwen2.5-1.5B",
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "supported_languages": [
+    "English",
+    "Malay",
+    "Chinese",
+    "Tamil"
+  ],
+  "validation_macro_compliance": 78.125,
+  "validation_macro_safety": 68.75,
+  "minimum_language_safety": 50.0
+}
