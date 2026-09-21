@@ -1,0 +1,1118 @@
+/* Default font for the whole app */
+* { 
+    font-family: "Segoe UI", 
+    "Noto Sans", sans-serif; 
+    font-size: 13px; 
+}
+
+/* Background for the main window and dialogs */
+QMainWindow, QDialog { 
+    background: #F5F7FB; 
+}
+
+/* Default text colour */
+QWidget { 
+    color: #253550; 
+}
+
+/* labels clear of borders and backgrounds */
+QLabel { 
+    background: transparent; 
+    border: none; 
+}
+
+/* Small hints shown when hovering */
+QToolTip { 
+    background: #182C4D; 
+    color: white; 
+    border: 0; 
+    padding: 8px; 
+}
+
+/* scrolling areas and page stacks clear */
+QScrollArea, QStackedWidget { 
+    border: none; 
+    background: transparent; 
+}
+
+/* Shared background for the main pages */
+#homeContent, #checkInPageContent, #processingPage, #resultPage, #trendsPageContent, #assistantContent { 
+    background: #F5F7FB; 
+}
+
+/* Dark background for the sidebar */
+#sideBar { 
+    background: #182C4D; 
+    border: none; 
+}
+
+/* Default button appearance */
+QPushButton { 
+    background: #FFFFFF; 
+    border: 1px solid #D1DDEE; 
+    border-radius: 9px; 
+    padding: 8px 14px; 
+    font-weight: 600; 
+    color: #3F5D8A; 
+}
+
+/* Highlight buttons on hover */
+QPushButton:hover { 
+    background: #EEF3FB; 
+    border-color: #8CA6D0; 
+}
+
+/* Darken buttons while pressed */
+QPushButton:pressed { 
+    background: #DDE7F7; 
+}
+
+/* Outline the focused button */
+QPushButton:focus { 
+    border: 2px solid #7193CE; 
+}
+
+/* Fade buttons that cannot be used */
+QPushButton:disabled { 
+    background: #E9EDF4; 
+    color: #8797AB; 
+    border-color: #E0E6EF; 
+}
+
+/* Sidebar navigation buttons */
+#navButton { 
+    text-align: left; 
+    background: transparent; 
+    border: 1px solid transparent; 
+    color: #DCE6F7; 
+    padding: 2px 12px; 
+    font-size: 14px; 
+    font-weight: 700; 
+}
+
+/* Highlight a navigation button on hover */
+#navButton:hover { 
+    background: #253D61; 
+}
+
+/* Show the current page in the sidebar */
+#navButton[active="true"] { 
+    background: #345586; 
+    color: white; 
+    border: 1px solid #42679B; 
+}
+
+/* Outline a focused navigation button */
+#navButton:focus { 
+    border: 2px solid #AFC8F4; 
+}
+
+/* Centre icons when the sidebar is closed */
+#navButton[collapsed="true"] { 
+    text-align: center; 
+    padding: 2px 0; 
+}
+
+/* Sidebar open and close button */
+#navToggle { 
+    background: transparent; 
+    border: 1px solid transparent; 
+    padding: 2px; 
+}
+
+/* Highlight the sidebar toggle on hover */
+#navToggle:hover { 
+    background: #253D61; 
+}
+
+/* Round profile button with initials */
+#profileAvatar { 
+    color: white; 
+    border: 2px solid transparent; 
+    border-radius: 21px; 
+    padding: 0; 
+    font-size: 14px; 
+    font-weight: 600; 
+}
+
+/* Outline the profile button on hover */
+#profileAvatar:hover { 
+    border: 2px solid #BACDED; 
+}
+
+/* Keep the profile focus border clear */
+#profileAvatar:focus { 
+    border: 2px solid transparent; 
+}
+
+/* Solace name in the page header */
+#homeBrand { 
+    color: #29476F; 
+    font-size: 21px; 
+    font-weight: 600; 
+}
+
+/* Small welcome text in the header */
+#welcomeLabel { 
+    color: #6B7990; 
+    font-size: 12px; 
+}
+
+/* Small heading above the main content */
+#pageEyebrow { 
+    font-size: 12px; 
+    color: #6B7990; 
+}
+
+/* Main welcome card on the home page */
+#heroCard { 
+    background: #EDF2FB; 
+    border: 1px solid #DEE6F4; 
+    border-radius: 14px; 
+}
+
+/* Small heading inside the welcome card */
+#heroEyebrow { 
+    font-size: 10px; 
+    font-weight: 600; 
+    color: #5371A4; 
+}
+
+/* Main welcome heading */
+#heroTitle { 
+    font-family: "Segoe UI Semibold", 
+    "Segoe UI", sans-serif; 
+    font-size: 34px; 
+    font-weight: 600; 
+    color: #243D67; 
+}
+
+/* Description below the welcome heading */
+#heroDescription { 
+    color: #637596; 
+    font-size: 15px; 
+}
+
+/* Small notes and reminders across the app */
+#privacyNote, #scoreCaveat, #resultReminder, #processingNote, #assistantPrivateNote, #assistantDisclaimer, #assistantToolLabel { 
+    color: #687991; 
+    font-size: 11px; 
+}
+
+/* Main action buttons */
+#primaryButton, #startCheckInButton, #submitCheckInButton, #assistantSendButton { 
+    background: #3E64B4; 
+    color: white; 
+    border: 1px solid #3E64B4; 
+    padding: 8px 18px; 
+}
+
+/* Darken main action buttons on hover */
+#primaryButton:hover, #startCheckInButton:hover, #submitCheckInButton:hover, #assistantSendButton:hover { 
+    background: #31549D; 
+}
+
+/* Darken main action buttons while pressed */
+#primaryButton:pressed, #startCheckInButton:pressed, #submitCheckInButton:pressed, #assistantSendButton:pressed { 
+    background: #24437E; 
+}
+
+/* Outline focused main action buttons */
+#primaryButton:focus, #startCheckInButton:focus, #submitCheckInButton:focus, #assistantSendButton:focus { 
+    border: 2px solid #B0C9F4; 
+}
+
+/* Fade unavailable main action buttons */
+#primaryButton:disabled, #submitCheckInButton:disabled, #assistantSendButton:disabled { 
+    background: #E1E7F0; 
+    color: #8592A8; 
+    border-color: #E1E7F0; 
+}
+
+/* Headings for page sections */
+#sectionTitle { 
+    font-size: 21px; 
+    font-weight: 600; 
+    color: #293F66; 
+}
+
+/* Titles inside cards */
+#featureTitle, #captureCardTitle, #trendsCardTitle, #resourceTitle { 
+    font-size: 15px; 
+    font-weight: 600; 
+    color: #2B4168; 
+}
+/* Descriptions and notes inside cards */
+#featureDescription, #captureCardText, #trendsCardNote, #calendarLegendText { 
+    font-size: 12px; 
+    color: #6B7990; 
+}
+
+/* Quick links and resource cards */
+#quickCard, #resourceCard { 
+    background: white; 
+    border: 1px solid #DFE5EF; 
+    border-radius: 12px; 
+    text-align: left; 
+    padding: 0; 
+}
+
+/* Highlight cards on hover */
+#quickCard:hover, #resourceCard:hover { 
+    background: #FAFBFE; 
+    border-color: #92AAD2; 
+}
+
+/* Outline focused cards */
+#quickCard:focus, #resourceCard:focus { 
+    border: 2px solid #7193CE; 
+}
+
+/* Small resource category label */
+#resourceTag { 
+    background: #E7EDF9; 
+    color: #4C69A1; 
+    border-radius: 5px; 
+    padding: 6px 8px; 
+    font-size: 10px; 
+    font-weight: 600; 
+}
+
+/* Warm colours for this resource label */
+#resourceTag[tone="sand"] { 
+    background: #F9EAE2; 
+    color: #A0654D; 
+}
+
+/* Purple colours for this resource label */
+#resourceTag[tone="blue"] { 
+    background: #EEEAF9; 
+    color: #796397; 
+}
+
+/* Text used for resource links */
+#resourceLink { 
+    color: #4B68AC; 
+    font-size: 11px; 
+    font-weight: 600; 
+}
+
+/* Title in the resource dialog */
+#resourceDialogTitle { 
+    font-size: 25px; 
+    font-weight: 600; 
+}
+
+/* Description in the resource dialog */
+#resourceDialogBody { 
+    font-size: 15px; 
+    color: #4A5C78; 
+}
+
+/* Extra notes in the resource dialog */
+#resourceDialogNote { 
+    font-size: 13px; 
+    color: #5E6F88; 
+}
+
+/* Main card around the account forms */
+#appCard { 
+    background: white; 
+    border: 1px solid #DFE5EF; 
+    border-radius: 16px; 
+}
+
+/* Brand area beside the account form */
+#brandPanel { 
+    background: #E8EFFA; 
+    border-top-left-radius: 16px; 
+    border-bottom-left-radius: 16px; 
+}
+
+/* Large Solace brand name */
+#brandName { 
+    font-size: 48px; 
+    font-weight: 600; 
+    color: #243D67; 
+}
+
+/* Short line below the brand name */
+#brandTagline { 
+    font-size: 11px; 
+    color: #57729E; 
+}
+
+/* Account form area beside the brand */
+#formPanel { 
+    background: white; 
+    border-top-right-radius: 16px; 
+    border-bottom-right-radius: 16px; 
+}
+
+/* Main heading in the account form */
+#formTitle { 
+    font-size: 27px; 
+    font-weight: 600; 
+}
+
+/* Description below the form heading */
+#formSubtitle { 
+    color: #6B7990; 
+    font-size: 13px; 
+}
+
+/* Labels above input fields */
+#fieldLabel { 
+    color: #4D6283; 
+    font-size: 12px; 
+    font-weight: 600; 
+}
+
+/* Shared appearance for text fields and menus */
+QLineEdit, QPlainTextEdit, QTextEdit, QComboBox { 
+    background: #FBFCFE; 
+    color: #2A4165; 
+    border: 1px solid #D7E0EF; 
+    border-radius: 8px; 
+    padding: 8px 12px; 
+    selection-background-color: #D2DFF5; 
+    selection-color: #182C4D; 
+}
+
+/* Highlight the field being used */
+QLineEdit:focus, QPlainTextEdit:focus, QTextEdit:focus, QComboBox:focus { 
+    border: 2px solid #7394C7; 
+    background: white; 
+}
+
+/* Leave room for the menu arrow */
+QComboBox { 
+    padding-right: 24px; 
+}
+
+/* Area around the menu arrow */
+QComboBox::drop-down { 
+    border: none; 
+    width: 24px; 
+}
+
+/* Options shown inside an open menu */
+QComboBox QAbstractItemView { 
+    background: white; 
+    color: #2A4165; 
+    selection-background-color: #E2EAF8; 
+    selection-color: #182C4D; 
+    padding: 4px; 
+}
+
+/* Line beside the form divider text */
+#dividerLine { 
+    background: #E2E7F0; 
+}
+
+/* Text between the divider lines */
+#dividerLabel { 
+    color: #7C889C; 
+    font-size: 11px; 
+}
+
+/* Check-in and assistant status keep their own coloured box */
+#captureStatus, #assistantStatus {
+    border-radius: 6px;
+    padding: 8px;
+    color: #974F56;
+    background: #F8EBEC;
+}
+/* Login and register status: one coloured pill holding the icon and the text */
+#statusRow {
+    border-radius: 8px;
+    padding: 8px 12px;
+    background: #F8EBEC;
+}
+#statusRow[statusType="success"] {
+    background: #E2F0E5;
+}
+/* Status text sits on the row's background, with no box of its own */
+#statusMessage {
+    color: #974F56;
+    background: transparent;
+    padding: 0;
+}
+#statusMessage[statusType="success"] {
+    color: #376A4A;
+}
+
+/* Green message after a successful action */
+#statusMessage[statusType="success"] { 
+    background: #E2F0E5; 
+    color: #376A4A; 
+}
+
+/* Main headings across the app pages */
+#checkInIntroTitle, #resultPageTitle, #trendsPageTitle, #settingsPageTitle, #assistantTitle { 
+    font-size: 28px; 
+    font-weight: 600; 
+}
+
+/* Descriptions below the page headings */
+#checkInIntroText, #trendsPageSubtitle, #settingsPageSubtitle, #assistantSubtitle { 
+    color: #667892; 
+    font-size: 13px; 
+}
+
+/* Shared appearance for content cards */
+#settingsCard, #videoCaptureCard, #checkInLowerCard, #transcriptCard,#resultSummaryCard, #resultScoreCard, #recommendationCard, #processingCard,#trendsGraphCard, #trendsCalendarCard, #historyPanel, #historySummaryCard,#historyDetailsCard, #assistantComposer, #assistantHeroCard { 
+    background: white; 
+    border: 1px solid #DFE5EF; 
+    border-radius: 12px; 
+}
+
+/* Background behind the video display */
+#videoWidget {
+    background: #EDF2F9;
+    border-radius: 8px;
+}
+
+/* Text shown before a video is available */
+#videoPreviewText { 
+    color: #71839F; 
+    font-size: 12px; 
+}
+
+/* Recording status and timer text */
+#recordingStatus, #recordingTimeSmall { 
+    font-size: 11px; 
+    color: #72839D; 
+}
+
+/* Audio and video recording buttons */
+#recordButton { 
+    background: #ECF1FC; 
+    color: #4969A4; 
+    border-color: #CAD7EF; 
+}
+
+/* Highlight recording buttons on hover */
+#recordButton:hover { 
+    background: #E1EAF9; 
+}
+
+/* Keep the check-in action area clear */
+#checkInActionCard { 
+    background: transparent; 
+    border: none; 
+}
+
+/* Red styling for delete buttons */
+#deleteCheckInButton, #deleteAccountButton { 
+    color: #A05058; 
+    border-color: #E4C5C9; 
+    background: #FCF4F4; 
+}
+
+/* Darken delete buttons on hover */
+#deleteCheckInButton:hover, #deleteAccountButton:hover { 
+    background: #F4E2E4; 
+}
+
+/* Fade the delete button until confirmation */
+#deleteAccountButton:disabled { 
+    color: #B99A9F; 
+    background: #F3ECEC; 
+    border-color: #E5DBDE; 
+}
+
+/* Red headings for warnings and deletion */
+#dangerTitle, #deleteDialogWarning { 
+    color: #A05058; 
+    font-size: 15px; 
+    font-weight: 600; 
+}
+
+/* Titles in dialogs and the processing view */
+#processingTitle, #uploadTitle, #consentTitle, #thankYouTitle, #deleteDialogTitle { 
+    font-size: 23px; 
+    font-weight: 600; 
+}
+
+/* Supporting text in dialogs and processing */
+#processingMessage, #uploadNote, #uploadFileLabel, #thankYouText, #deleteDialogDetails, #consentSubtitle { 
+    color: #6D7F98; 
+    font-size: 12px; 
+}
+
+/* Rounded cards used by the dialogs */
+#consentCard, #uploadCard, #thankYouCard, #deleteAccountDialogCard { 
+    background: white; 
+    border: 1px solid #DFE5EF; 
+    border-radius: 14px; 
+}
+
+/* Privacy and consent explanation text */
+#disclaimerText { 
+    color: #526783; 
+    font-size: 12px; 
+}
+
+/* Checkbox text and spacing */
+QCheckBox { 
+    spacing: 8px; 
+    color: #526783; 
+    font-size: 11px;
+}
+
+/* Empty checkbox appearance */
+QCheckBox::indicator { 
+    width: 18px; 
+    height: 18px; 
+    border-radius: 4px; 
+    border: 1px solid #A3B8D9; 
+    background: white; 
+}
+
+/* Tick image and colour for checked boxes */
+QCheckBox::indicator:checked {
+    background: #3E64B4;
+    border: 2px solid #C5D4F0;
+    image: url("__SOLACE_IMAGES__/check_white.png");
+}
+
+/* focused checkbox */
+QCheckBox:focus { 
+    outline: none; 
+    color: #182C4D; 
+}
+
+/* Main result and saved history headings */
+#resultPhrase, #historyPhrase, #historySelectedDate, #historyEmptyTitle { 
+    font-size: 24px; 
+    font-weight: 600; 
+}
+
+/* Explanations below results and history */
+#resultExplanation, #historyExplanation, #historyEmptyMessage { 
+    color: #6E7F95; 
+    font-size: 14px; 
+}
+
+/* Labels beside wellbeing scores */
+#scoreLabel { 
+    font-size: 14px; 
+    font-weight: 600;
+}
+
+/* Message shown before enough check-ins are saved */
+#trendRequirement { 
+    color: #7889A2; 
+    background: #F0F4FA; 
+    padding: 14px; 
+    border-radius: 8px; 
+    font-size: 12px; 
+}
+
+/* Background and text for score bars */
+QProgressBar { 
+    background: #EAF0F7; 
+    border: none; 
+    border-radius: 6px; 
+    min-height: 20px; 
+    text-align: center; 
+    color: #253550; 
+}
+
+/* Default green fill for score bars */
+QProgressBar::chunk {
+    background: #8DBD9C; 
+    border-radius: 6px; 
+}
+
+/* Yellow fill for middle scores */
+QProgressBar[zone="mid"]::chunk { 
+    background: #DFC687; 
+}
+
+/* Red fill for lower scores */
+QProgressBar[zone="low"]::chunk { 
+    background: #D89DA3; 
+}
+
+/* Default recommendation card */
+#recCard { 
+    background: #F4F8FE; 
+    border: 1px solid #D6E2F4; 
+    border-radius: 14px; 
+}
+
+/* Highlight recommendation cards on hover */
+#recCard:hover { 
+    background: #ECF3FD; 
+    border-color: #9FBDE8; 
+}
+
+/* Green recommendation card */
+#recCard[tone="mint"] { 
+    background: #EEF7F1; 
+    border-color: #CDE6D6; 
+}
+
+/* Highlight green recommendation cards on hover */
+#recCard[tone="mint"]:hover { 
+    background: #E4F1E9; 
+    border-color: #A9D3B8; 
+}
+
+/* Warm recommendation card */
+#recCard[tone="sand"] { 
+    background: #FBF2EC; 
+    border-color: #F0DDD0; 
+}
+
+/* Highlight warm recommendation cards on hover */
+#recCard[tone="sand"]:hover { 
+    background: #F6E8DD; 
+    border-color: #E3C3AC; 
+}
+
+/* Round number badge on recommendation cards */
+#recCardNumber { 
+    font-size: 20px; 
+    font-weight: 700; 
+    color: #FFFFFF; 
+    background: #4B68AC; 
+    border-radius: 22px; 
+}
+
+/* Green recommendation number badge */
+#recCardNumber[tone="mint"] { 
+    background: #3F8A63; 
+}
+
+/* Warm recommendation number badge */
+#recCardNumber[tone="sand"] { 
+    background: #B06A45; 
+}
+
+/* Centred text inside recommendation cards */
+#recCardText { 
+    font-size: 15px; 
+    font-weight: 500; 
+    color: #3B527A; 
+    qproperty-alignment: AlignCenter; 
+}
+
+/* history containers clear */
+#historyEmptyState, #historySummaryState, #historyScrollContent, #historyScrollArea { 
+    background: transparent; 
+}
+
+/* Saved check-in time and input type */
+#historySelectedTime, #historyInputType { 
+    font-size: 11px; 
+    color: #7888A0; 
+}
+
+/* Main calendar appearance */
+#wellbeingCalendar { 
+    background: white; 
+    border: none; 
+}
+
+/* Calendar dates and selected day colours */
+#wellbeingCalendar QAbstractItemView { 
+    background: white; 
+    alternate-background-color: white; 
+    color: #446085; 
+    selection-background-color: #DFE9F9; 
+    selection-color: #2E4A72; 
+    border: none; 
+    font-size: 12px; 
+}
+
+/* Month and year selection menus */
+#calNavCombo { 
+    padding: 4px 10px; 
+    font-size: 12px; 
+}
+
+/* Previous and next month buttons */
+#calNavArrow { 
+    padding: 3px; 
+}
+
+/* Background for the assistant introduction */
+#assistantHeroCard { 
+    background: #EAF0FA; 
+}
+
+/* Large prompt shown before chatting */
+#assistantHeroPrompt { 
+    font-size: 30px; 
+    font-weight: 600; 
+    color: #29476F; 
+}
+
+/* Keep chat rows and scrolling areas clear */
+#assistantChatScroll, #assistantChatContainer, #assistantMessageRow { 
+    background: transparent; 
+    border: none;
+}
+
+/* Bubble for the user message */
+#assistantUserMessage { 
+    background: #E5ECFA; 
+    border: 1px solid #D4DFF3; 
+    border-radius: 12px; 
+}
+
+/* Bubbles for assistant replies and thinking */
+#assistantBotMessage, #assistantThinkingMessage { 
+    background: white; 
+    border: 1px solid #E2E7F0; 
+    border-radius: 12px; 
+}
+
+/* Text inside chat bubbles */
+#assistantUserMessageText, #assistantBotMessageText, #assistantThinkingText { 
+    color: #415A7D; 
+    font-size: 13px; 
+}
+
+/* Heading above suggested questions */
+#assistantSuggestionsTitle { 
+    font-size: 11px; 
+    color: #7B8BA1; 
+}
+
+/* Suggested question buttons */
+#assistantSuggestionButton { 
+    background: white; 
+    color: #5B7091; 
+    font-size: 11px; 
+    padding: 6px 10px; 
+}
+
+/* Highlight suggested questions on hover */
+#assistantSuggestionButton:hover { 
+    background: #ECF2FC; 
+}
+
+/* Question field inside the message area */
+#assistantQuestionInput { 
+    border: none; 
+    background: transparent; 
+}
+
+/* Outline the question field when focused */
+#assistantQuestionInput:focus { 
+    border: 1px solid #7A98C9; 
+}
+
+/* Vertical scrollbar track */
+QScrollBar:vertical { 
+    background: #EFF2F8; 
+    width: 10px; 
+    margin: 0; 
+}
+
+/* Draggable part of the vertical scrollbar */
+QScrollBar::handle:vertical { 
+    background: #BDCBE0; 
+    min-height: 30px; 
+    border-radius: 5px; 
+}
+
+/* Highlight the vertical handle on hover */
+QScrollBar::handle:vertical:hover { 
+    background: #91A8CC; 
+}
+
+/* Darken the vertical handle while pressed */
+QScrollBar::handle:vertical:pressed { 
+    background: #6D8BB6; 
+}
+
+/* Horizontal scrollbar track */
+QScrollBar:horizontal { 
+    background: #EFF2F8; 
+    height: 10px; 
+    margin: 0; 
+}
+
+/* Draggable part of the horizontal scrollbar */
+QScrollBar::handle:horizontal { 
+    background: #BDCBE0; 
+    min-width: 30px; 
+    border-radius: 5px; 
+}
+
+/* Highlight the horizontal handle on hover */
+QScrollBar::handle:horizontal:hover { 
+    background: #91A8CC; 
+}
+
+/* Hide the scrollbar arrow buttons */
+QScrollBar::add-line, QScrollBar::sub-line { 
+    width: 0; 
+    height: 0; 
+}
+
+/* Keep the unused scrollbar areas clear */
+QScrollBar::add-page, QScrollBar::sub-page { 
+    background: transparent; 
+}
+
+/* Image used for menu arrows */
+QComboBox::down-arrow {
+    image: url("__SOLACE_IMAGES__/chevron_down.png");
+    width: 12px;
+    height: 12px;
+}
+
+/* Default tab appearance */
+QTabBar::tab { 
+    background: #E9EEF7; 
+    color: #697C9B; 
+    border: 1px solid #DFE5EF; 
+    border-radius: 8px; 
+    padding: 10px 28px; 
+    margin-right: 8px; 
+    margin-bottom: 10px; 
+    font-weight: 600; 
+}
+
+/* Highlight tab on hover */
+QTabBar::tab:hover {
+    background: #DCE6F7;
+}
+
+/* Show which tab is selected */
+QTabBar::tab:selected {
+    background: #365DA2;
+    color: #FFFFFF;
+    border-color: #365DA2;
+}
+
+/* Outline the focused tab */
+QTabBar::tab:focus { 
+    border: 2px solid #90ADE0; 
+}
+
+/* Keep tab containers clear */
+QTabWidget, QTabBar { 
+    background: transparent; 
+    border: none; 
+}
+
+/* Remove border around tab content */
+QTabWidget::pane { 
+    background: transparent; 
+    border: none; top: 0px; 
+}
+
+/* Align tab row to the left */
+QTabWidget::tab-bar { 
+    left: 0px; 
+}
+
+/* Resize handle between the recording panels */
+QSplitter#captureWorkspace::handle { 
+    background: #F5F7FB; 
+}
+
+/* Background shown around the video preview */
+#videoPreviewStack, #videoPlaceholder { 
+    background: #E8EFFA; 
+    border-radius: 8px; 
+}
+
+/* Messages in the profile form */
+#profileStatus { 
+    color: #496A9A; 
+    font-size: 12px; 
+}
+
+/* Smaller welcome heading on the home page */
+#homeContent #heroTitle { 
+    font-size: 29px; 
+}
+
+/* Language menu on the login page */
+#loginLanguageCombo { 
+    min-width: 110px;
+    padding-left: 12px; 
+    padding-right: 32px; 
+}
+
+/* Card around the profile fields */
+#profilePanel {
+    background: #FFFFFF; 
+    border: 1px solid #DFE5EF; 
+    border-radius: 12px;
+}
+
+/* preferences background clear */
+#preferencesPanel { 
+    background: transparent; 
+}
+
+/* scrolling content inside tabs clear */
+QTabWidget QScrollArea, QTabWidget QScrollArea > QWidget > QWidget { 
+    background: transparent; 
+}
+
+/* Close button in the delete account dialog */
+QPushButton#deleteDialogCloseButton {
+    padding: 0px;
+    background: #FFFFFF;
+    border: 1px solid #E4C5C9;
+    border-radius: 9px;
+}
+
+/* Red highlight for the delete dialog close button */
+QPushButton#deleteDialogCloseButton:hover, QPushButton#deleteDialogCloseButton:focus {
+    background: #FCF4F4;
+    border: 2px solid #A05058;
+}
+
+/* Pressed state of the delete dialog close button */
+QPushButton#deleteDialogCloseButton:pressed {
+    background: #F4E2E4;
+    border: 2px solid #A05058;
+}
+
+/* Password visibility button inside the field */
+#passwordEyeButton { 
+    background: transparent; 
+    border: none; 
+    padding: 0; 
+    color: #456AA3; 
+}
+
+/* status icon for success and error */
+#statusIcon {
+    min-width: 24px;
+    max-width: 24px;
+    min-height: 24px;
+    max-height: 24px;
+}
+/* Questionnaire page background */
+#questionnaireContent { 
+    background: #F5F7FB; 
+}
+
+/* CBI question text */
+#cbiQuestion { 
+    font-size: 14px; 
+    font-weight: 600; 
+    color: #2B4168; 
+}
+
+/* One answer option button */
+#questionnaireOption {
+    background: #FBFCFE;
+    color: #4D6283;
+    border: 1px solid #D7E0EF;
+    border-radius: 8px;
+    padding: 10px 8px;
+    font-weight: 500;
+}
+
+ /* questionnaire option hover options */
+#questionnaireOption:hover { 
+    background: #EEF3FB; 
+    border-color: #8CA6D0; 
+}
+
+ /* questionnaire option checked */
+#questionnaireOption:checked { 
+    background: #3E64B4; 
+    color: white; 
+    border: 1px solid #3E64B4; 
+}
+
+/* Show progress towards the password requirements */
+QProgressBar#passwordRequirementsBar {
+    background-color: #EDF1F7;
+    border: none;
+    border-radius: 5px;
+    color: #192D4B;
+    text-align: center;
+    font-size: 11px;
+    padding: 0px;
+}
+
+QProgressBar#passwordRequirementsBar::chunk {
+    background-color: #E8C58A;
+    border-radius: 5px;
+}
+
+QProgressBar#passwordRequirementsBar[approved="true"]::chunk {
+    background-color: #A7D7BE;
+}
+
+/* Make the medical disclaimer stand out */
+QLabel#medicalDisclaimer {
+    background-color: #FFF4DE;
+    color: #704C16;
+    border: 1px solid #E5C384;
+    border-left: 4px solid #BD8732;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-weight: bold;
+}
+
+/* Show unsuccessful saves in red */
+QLabel#profileSavedNotice {
+    background-color: #FBECEE;
+    color: #9C303C;
+    border: 1px solid #E5B5BD;
+    border-left: 4px solid #B54755;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-weight: bold;
+}
+
+/* Show successful saves in green */
+QLabel#profileSavedNotice[success="true"] {
+    background-color: #EAF7EF;
+    color: #24613C;
+    border: 1px solid #A9D6B8;
+    border-left: 4px solid #398454;
+}
+
+/* Close the upload card */
+QPushButton#uploadCloseButton {
+    padding: 0px;
+    background: #FFFFFF;
+    border: 1px solid #D6E1F2;
+    border-radius: 9px;
+}
+
+/* upload dialog close button */
+QPushButton#uploadCloseButton:hover,QPushButton#uploadCloseButton:focus {
+    background: #F0F4FB;
+    border: 2px solid #7396D5;
+}
+
+/* upload dialog close button */
+QPushButton#uploadCloseButton:pressed {
+    background: #E3EBF8;
+}
+
+/* Weekly reminder banner on the questionnaire page */
+#questionnaireReminderNote {
+    background: #FFF4E0;
+    border: 1px solid #F1C27D;
+    border-radius: 12px;
+    color: #8A5A16;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 12px 16px;
+}
+
+/* consent card */
+#consentCard, #uploadCard, #thankYouCard, #deleteAccountDialogCard, #resourceDialogCard { 
+    background: white; 
+    border: 1px solid #DFE5EF; 
+    border-radius: 14px; 
+}
