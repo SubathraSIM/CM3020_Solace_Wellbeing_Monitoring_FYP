@@ -7,5 +7,8 @@ data/database/
 # questionnaire results
 data/questionnaire results/
 
+# translation file
+data/ui_translations.json
+
 # DDAMFN Model
 models/
