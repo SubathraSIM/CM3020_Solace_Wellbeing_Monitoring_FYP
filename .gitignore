@@ -1,2 +1,11 @@
 # Virtual environment
 .venv/
+
+# Database
+data/database/
+
+# questionnaire results
+data/questionnaire results/
+
+# DDAMFN Model
+models/
