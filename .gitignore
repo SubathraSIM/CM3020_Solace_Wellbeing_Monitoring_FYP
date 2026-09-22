@@ -12,3 +12,9 @@ data/ui_translations.json
 
 # DDAMFN Model
 models/
+
+# pycache
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
