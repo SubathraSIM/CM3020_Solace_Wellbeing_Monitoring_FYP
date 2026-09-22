@@ -21,3 +21,6 @@ __pycache__/
 
 # User's recordings
 User_testing/Recordings/
+
+# Functional testing raw recordings not included due to huge size
+data/raw/Functional_Testing/
