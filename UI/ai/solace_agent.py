@@ -13,8 +13,31 @@ from UI.ui.resources import resources_for_score
 AGENT_MODEL_ID = "Qwen/Qwen3-1.7B"
 SUPPORTED_LANGUAGES = {"English","Malay","Chinese","Tamil"}
 
+# fixed wording for resource cards
+RESOURCE_WORDING = {
+    "Chinese": {
+        "assistant_zh_walking": ("散步，让身心放松", "介绍散步对健康益处的中文文章"),
+        "assistant_zh_stress": ("了解日常压力", "世界卫生组织提供的中文资料，介绍压力和应对方法"),
+        "assistant_zh_sleep": ("给自己充足的睡眠", "关于睡眠的简体中文资料"),
+        "assistant_zh_breathing": ("了解呼吸与情绪的关系", "介绍呼吸如何影响情绪的简体中文指南"),
+        "assistant_zh_grounding": ("把注意力带回当下","帮助应对强烈情绪的简体中文练习指南"),
+        "assistant_zh_wellbeing": ("了解心理健康", "介绍心理健康与身心福祉的简体中文资料")
+    },
+    "Malay": {
+        "assistant_ms_walking": ("Luangkan masa untuk berjalan kaki", "Artikel bahasa Melayu tentang manfaat berjalan kaki untuk kesihatan"),
+        "assistant_ms_selfcare": ("Jaga kesihatan mental anda", "Panduan penjagaan kesihatan mental dalam bahasa Melayu"),
+        "assistant_ms_takefive": ("Amalkan tabiat untuk kesejahteraan diri", "Maklumat bahasa Melayu tentang hubungan sosial, aktiviti dan amalan TAKE 5"),
+        "assistant_ms_mental_health": ("Fahami kesihatan mental", "Risalah bahasa Melayu tentang kesihatan mental daripada Kementerian Kesihatan Malaysia"),
+        "assistant_ms_positive_steps": ("Ambil langkah positif", "Poster bahasa Melayu tentang langkah positif untuk kesejahteraan mental"),
+        "assistant_ms_misconceptions": ("Fahami salah tanggapan tentang penyakit mental", "Risalah bahasa Melayu yang menjelaskan salah tanggapan tentang penyakit mental"),
+    },
+}
+
 # tool choices to the functions provided by Solace
 TOOL_NAMES = {"solace_help","latest_check_in","recent_scores","wellbeing_context","recent_history","date_check_in","check_in_count","wellbeing_resources","safety_support","general"}
+
+# Handle diagnosis requests with clear boundary
+TOOL_NAMES.add("diagnosis_boundary")
 
 # app information used to answer help questions
 SOLACE_HELP = """
@@ -85,7 +108,16 @@ Use when the user asks for resources, help, tips, activities, exercises, support
 
 safety_support
 Use when the user describes possible immediate danger, self-harm,
-suicidal intent, or an urgent medical or mental-health crisis.
+suicidal intent, an urgent crisis, or severe distress involving
+hopelessness and being unable to cope.
+Ordinary tiredness or work stress alone does not mean an emergency.
+A request for a diagnosis alone does not mean an emergency.
+Apply these distinctions in every language.
+
+diagnosis_boundary
+Use when the user asks whether they have a medical or mental-health
+condition, asks for a diagnosis, or asks Solace to confirm a diagnosis.
+A diagnosis request without urgent danger belongs here, not safety_support.
 
 general
 Use only for greetings, thanks, or general conversation that does not require Solace documentation or saved user data.
@@ -94,9 +126,24 @@ Rules:
 - Choose exactly one tool.
 - Never invent another tool.
 - Personal wellbeing questions must use a personal-data tool.
-- Medical diagnosis questions should use solace_help unless there is immediate danger, in which case use safety_support.
+- Requests to diagnose a condition must use diagnosis_boundary unless the message also describes immediate danger or an urgent crisis.
+- For ordinary tiredness or work stress without crisis indicators, use wellbeing_resources when no saved personal data is requested.
+- Assess the meaning of the whole message, including negation and context, rather than individual words.
 - If a specific date is mentioned, resolve it using the current date when possible and use date_check_in.
 - Return JSON only with exactly these keys: {"tool": "tool_name", "date": "YYYY-MM-DD or empty string"}
+
+Routing examples:
+- "I feel worn out after work" -> wellbeing_resources
+- "வேலை முடிந்ததும் சோர்வாக இருக்கிறது" -> wellbeing_resources
+- "Saya berasa letih selepas bekerja" -> wellbeing_resources
+- "下班后我觉得很累" -> wellbeing_resources
+- "Could these feelings mean I have an anxiety disorder?" -> diagnosis_boundary
+- "I am about to hurt myself" -> safety_support
+- "Please debug my Python script" -> general
+
+These examples illustrate meaning, not exact phrases to match.
+Read the whole message and its context.
+Tiredness alone is not evidence of an urgent crisis.
 
 /no_think
 """.strip()
@@ -112,12 +159,16 @@ Safety boundaries:
 - Do not diagnose burnout, depression, anxiety or any medical or mental-health condition.
 - Do not claim that a Solace score proves a condition.
 - Do not provide medication or treatment instructions.
-- Explain that Solace is an experimental wellbeing support tool when medical certainty is requested.
+- When asked for a diagnosis, explicitly explain that Solace cannot diagnose medical or mental-health conditions and that a qualified healthcare professional can assess the concern.
+- Do not assume that requesting a diagnosis means the user is experiencing an emergency.
 - If information is unavailable, say that it is unavailable.
 - Do not claim that you changed, deleted or sent any user data.
 - Keep the response supportive, concise and clear.
 - When the tool result contains resources, introduce them warmly in one sentence, then list each resource's title and its description. Include each resource's exact url from the tool result on its own. Never invent, change or add any url. Only use urls present in the tool result.
 - Answer in English. Another model will translate the final response when the user has selected another language.
+- Stay within Solace and wellbeing topics.
+- For unrelated requests such as writing code, politely decline and offer help with Solace or wellbeing instead.
+- Do not complete an unrelated task before redirecting the user.
 
 /no_think
 """.strip()
@@ -230,8 +281,18 @@ class SolaceAgent:
     def fast_tool(question):
         # Normalise the question before matching keywords
         text = question.lower()
-        # use resource tool
-        if any(word in text for word in ("resource", "tips", "exercise", "activit", "relax", "cope", "coping", "help me feel")):
+        # shortcut only for simple resource requests
+        resource_requests = {
+            "resources",
+            "show resources",
+            "show me resources",
+            "wellbeing resources",
+            "show me wellbeing resources",
+            "give me wellbeing resources",
+            "breathing exercises",
+            "relaxation tips"
+        }
+        if text.strip().rstrip(".!?") in resource_requests:
             return "wellbeing_resources"
         # Direct count questions
         if any(word in text for word in ("how many check", "how many checkin")):
@@ -358,10 +419,13 @@ class SolaceAgent:
         resources = []
         # Translate resource names and descriptions while keeping their links
         for item in picked["resources"]:
+            # fixed wording in the selected language
+            wording = RESOURCE_WORDING.get(self.language_name, {}).get(item["title_key"])
             resources.append({
-                "title": get_text(self.language_name, item["title_key"]),
-                "description": get_text(self.language_name, item["desc_key"]),
-                "url": item["url"]
+                "title": (wording[0] if wording else get_text("English", item["title_key"])),
+                "description": (wording[1] if wording else get_text("English", item["desc_key"])),
+                "url": item["url"],
+                "localised": wording is not None
             })
         # return ok
         return {
@@ -375,13 +439,23 @@ class SolaceAgent:
     # resource reply directly so the answer model is not needed
     def format_resources(self, tool_result):
         resources = tool_result.get("resources", [])
-        # Fall back gently when no resource is available
         if not resources:
-            return "I don't have any resources to suggest right now."
-        # opening line followed by each resource and its exact url
-        lines = ["Here are a few resources that might help:"]
+            return translate_text("I don't have any resources to suggest right now.",self.language_name)
+        # fixed introductions where available
+        introductions = {"Chinese": "以下资源可能对你有所帮助：", "Malay": "Berikut ialah beberapa sumber yang mungkin membantu:"}
+        introduction = introductions.get(self.language_name)
+        if introduction is None:
+            introduction = translate_text("Here are a few resources that might help:", self.language_name)
+        lines = [introduction]
+        # resouces list
         for item in resources:
-            lines.append(f"\n**{item['title']}** — {item['description']}\n{item['url']}")
+            wording = f"{item['title']} — {item['description']}"
+            # Translate only wording that is still in English
+            if not item.get("localised", False):
+                wording = translate_text(wording, self.language_name)
+            # original link unchanged
+            lines.append(f"\n{wording}\n{item['url']}")
+        # complete resource reply
         return "\n".join(lines)
 
     # fixed message for urgent support
@@ -416,18 +490,28 @@ class SolaceAgent:
         # safety support
         if tool == "safety_support":
             return self.safety_support()
-        # general
-        if tool == "general":
-            # status ok
+        # Explain limit without generating a diagnosis
+        if tool == "diagnosis_boundary":
             return {
                 "status": "ok",
                 "message": (
-                    "This is a general or conversational message that "
-                    "does not need Solace documentation or saved user "
-                    "data. Reply warmly in one or two sentences, then "
-                    "gently remind the user you can explain how Solace "
-                    "works or help them understand their saved wellbeing "
-                    "history. Do not say you cannot answer."
+                    "Solace cannot diagnose depression, burnout or other "
+                    "medical or mental-health conditions. It is an "
+                    "experimental wellbeing support tool. A qualified "
+                    "healthcare professional can assess your concerns. "
+                    "I can help you explore wellbeing resources or "
+                    "understand your saved check-ins."
+                )
+            }
+        # general
+        if tool == "general":
+            return {
+                "status": "ok",
+                "message": (
+                    "I can help with Solace, wellbeing resources and your "
+                    "saved check-ins. I cannot complete unrelated tasks "
+                    "such as writing code. What would you like to know "
+                    "about Solace or your wellbeing?"
                 )
             }
 
@@ -559,12 +643,16 @@ class SolaceAgent:
                 decision = {"tool": tool, "date": ""}
             self.last_tool = decision["tool"]
             tool_result = self.run_tool(decision)
-            # fixed urgent support message
-            if (decision["tool"] == "safety_support"):
-                english_answer = (tool_result["message"])
-            # resources are already final
+            # fixed replies for support and scope boundaries
+            if decision["tool"] in {"safety_support", "diagnosis_boundary", "general"}:
+                english_answer = tool_result["message"]
+            # Translate resource wording and preserve the links
             elif (decision["tool"] == "wellbeing_resources" and tool_result.get("status") == "ok"):
-                english_answer = self.format_resources(tool_result)
+                self.release_qwen()
+                return {
+                    "answer": self.format_resources(tool_result),
+                    "tool": decision["tool"]
+                }
             else:
                 # english answer
                 english_answer = (self.generate_answer(question,decision["tool"],tool_result,history))

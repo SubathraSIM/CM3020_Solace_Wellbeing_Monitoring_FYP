@@ -150,7 +150,7 @@ def test_general_tool():
     # general conversation tool
     result = assistant.run_tool({"tool": "general", "date": ""})
     assert result["status"] == "ok"
-    assert ("does not need Solace documentation or saved user data" in result["message"])
+    assert "cannot complete unrelated tasks" in result["message"]
 
 
 # Test case 10: Check that personal wellbeing tools require a logged in user

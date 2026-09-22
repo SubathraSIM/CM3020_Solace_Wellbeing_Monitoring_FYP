@@ -440,7 +440,7 @@ def delete_user(user_id):
             DELETE FROM users
             WHERE id = ?
             """,
-            (user_id)
+            (user_id,)
         )
         # Report whether one account was deleted
         return cursor.rowcount == 1
@@ -471,7 +471,7 @@ def update_user_profile(user_id, username, full_name='', email='', profession=''
         # error
         raise ValueError('password_weak')
     with connect() as connection:
-        row = connection.execute('SELECT username, password_hash FROM users WHERE id = ?', (user_id)).fetchone()
+        row = connection.execute('SELECT username, password_hash FROM users WHERE id = ?', (user_id,)).fetchone()
         # Stop if account can no longer be found
         if row is None:
             raise ValueError('profile_account_missing')
@@ -568,7 +568,7 @@ def questionnaire_reminder_due(user_id, days=7):
     with connect() as connection:
         # no reminder unless the user opted in
         pref = connection.execute(
-            "SELECT reminders_enabled FROM questionnaire_prefs WHERE user_id = ?", (user_id)
+            "SELECT reminders_enabled FROM questionnaire_prefs WHERE user_id = ?", (user_id,)
         ).fetchone()
         if not pref or not pref['reminders_enabled']:
             return False
@@ -579,7 +579,7 @@ def questionnaire_reminder_due(user_id, days=7):
             FROM questionnaire_responses
             WHERE user_id = ?
             """,
-            (user_id)
+            (user_id,)
         ).fetchone()
     return bool(row and row['days'] is not None and row['days'] >= days)
 
@@ -611,7 +611,7 @@ def get_comparisons(user_id=None):
             rows = connection.execute("SELECT * FROM cbi_comparisons ORDER BY created_at DESC, id DESC").fetchall()
         else:
             # select rows
-            rows = connection.execute("SELECT * FROM cbi_comparisons WHERE user_id = ? ORDER BY created_at DESC, id DESC",(user_id)).fetchall()
+            rows = connection.execute("SELECT * FROM cbi_comparisons WHERE user_id = ? ORDER BY created_at DESC, id DESC",(user_id,)).fetchall()
     return [dict(row) for row in rows]
 
 # feedback card is due
@@ -629,7 +629,7 @@ def experience_feedback_due(user_id, interval_days):
             FROM users u
             LEFT JOIN experience_feedback_prompts p ON p.user_id = u.id
             WHERE u.id = ?
-            """,(user_id)
+            """,(user_id,)
         ).fetchone()
     # return
     return (row is not None and row["elapsed_days"] is not None and row["elapsed_days"] >= interval_days)
@@ -645,7 +645,7 @@ def mark_experience_feedback_shown(user_id):
             VALUES (?, CURRENT_TIMESTAMP)
             ON CONFLICT(user_id) DO UPDATE
             SET last_shown_at = CURRENT_TIMESTAMP
-            """, (user_id)
+            """, (user_id,)
         )
 
 # Save rating and optional comment
