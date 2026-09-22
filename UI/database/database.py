@@ -203,7 +203,7 @@ def save_consent(user_id):
                 consent_accepted_at = CURRENT_TIMESTAMP
             WHERE id = ?
             """,
-            (user_id)
+            (user_id,)
         )
 
 # Save check-in or replace user latest one from today
@@ -219,7 +219,7 @@ def save_check_in(user_id, result):
             ORDER BY created_at DESC, id DESC
             LIMIT 1
             """,
-            (user_id)
+            (user_id,)
         ).fetchone()
         # result values in the same order as the database fields
         values = (result['recording_type'], result['language'], result['transcript'], result['transcript_english'], result['text_score'], result['audio_score'], result.get('vision_score'), result['strain_score'], result['wellbeing_score'], result['phrase_english'], result['explanation_english'], result['recommendation_english'], result['image_name'], result.get('blink_rate'), result.get('head_position'), result['speech_rate'], result['disfluency_rate'], result['lexical_variety'])
@@ -345,7 +345,7 @@ def get_check_in_count(user_id):
             FROM check_ins
             WHERE user_id = ?
             """,
-            (user_id)
+            (user_id,)
         ).fetchone()
     return int(row['total'])
 
@@ -451,7 +451,7 @@ def get_user_profile(user_id):
         # profile fields
         row = connection.execute(
             "SELECT id, full_name, username, email, profession, address, consent_accepted FROM users WHERE id = ?",
-            (user_id)
+            (user_id,)
         ).fetchone()
     return dict(row) if row else None
 
@@ -506,7 +506,7 @@ def save_questionnaire(user_id, answer_labels, personal, work, overall):
             ORDER BY created_at DESC, id DESC
             LIMIT 1
             """,
-            (user_id)
+            (user_id,)
         ).fetchone()
         answers = json.dumps(answer_labels)
         # overwrite today questionnaire instead of adding another
@@ -540,7 +540,7 @@ def save_questionnaire(user_id, answer_labels, personal, work, overall):
             FROM check_ins
             WHERE user_id = ?
             AND date(created_at, 'localtime') = date('now', 'localtime')
-            """, (user_id)
+            """, (user_id,)
         ).fetchall()
 
         # check in
