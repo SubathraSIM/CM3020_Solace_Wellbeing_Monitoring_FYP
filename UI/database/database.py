@@ -60,29 +60,38 @@ def _wellbeing_band(score):
         return 'Mixed'
     return 'Low'
 
-# check-in with the user latest questionnaire and store the comparison
+# Compare a check-in with questionnaire from same local date
 def _record_cbi_comparison(connection, user_id, check_in_id, wellbeing_score):
-    # recent questionnaire is the one to compare against
+    # execute select statement
     row = connection.execute(
         """
-        SELECT id, cbi_score FROM questionnaire_responses
-        WHERE user_id = ?
-        ORDER BY created_at DESC, id DESC
+        SELECT q.id, q.cbi_score
+        FROM questionnaire_responses q
+        JOIN check_ins c ON c.user_id = q.user_id
+        WHERE q.user_id = ?
+        AND c.id = ?
+        AND date(q.created_at, 'localtime') = date(c.created_at, 'localtime')
+        ORDER BY q.created_at DESC, q.id DESC
         LIMIT 1
         """,
-        (user_id,)
+        (user_id, check_in_id)
     ).fetchone()
-    # nothing to compare if the user has not done a questionnaire yet
-    if row is None or row['cbi_score'] is None:
+
+    # Remove earlier comparison before refreshing it
+    connection.execute("DELETE FROM cbi_comparisons WHERE check_in_id = ?",(check_in_id,))
+
+    # check-in without a comparison if no questionnaire matches
+    if row is None or row["cbi_score"] is None:
         return
-    cbi_score = float(row['cbi_score'])
+
+    cbi_score = float(row["cbi_score"])
     wellbeing_score = float(wellbeing_score)
     cbi_band = _cbi_band(cbi_score)
     expected = _expected_wellbeing_band(cbi_band)
     solace_band = _wellbeing_band(wellbeing_score)
     agree = 1 if solace_band == expected else 0
-    # replace earlier comparison for this check-in so it stays current
-    connection.execute("DELETE FROM cbi_comparisons WHERE check_in_id = ?", (check_in_id,))
+
+    # Save same day comparison
     connection.execute(
         """
         INSERT INTO cbi_comparisons
@@ -90,8 +99,7 @@ def _record_cbi_comparison(connection, user_id, check_in_id, wellbeing_score):
              expected_wellbeing_band, wellbeing_score, solace_band, bands_agree)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
-        (user_id, row['id'], check_in_id, cbi_score, cbi_band, expected,
-         wellbeing_score, solace_band, agree)
+        (user_id, row["id"], check_in_id, cbi_score, cbi_band,expected, wellbeing_score, solace_band, agree)
     )
 
 # database connection and its transaction
@@ -195,7 +203,7 @@ def save_consent(user_id):
                 consent_accepted_at = CURRENT_TIMESTAMP
             WHERE id = ?
             """,
-            (user_id,)
+            (user_id)
         )
 
 # Save check-in or replace user latest one from today
@@ -211,7 +219,7 @@ def save_check_in(user_id, result):
             ORDER BY created_at DESC, id DESC
             LIMIT 1
             """,
-            (user_id,)
+            (user_id)
         ).fetchone()
         # result values in the same order as the database fields
         values = (result['recording_type'], result['language'], result['transcript'], result['transcript_english'], result['text_score'], result['audio_score'], result.get('vision_score'), result['strain_score'], result['wellbeing_score'], result['phrase_english'], result['explanation_english'], result['recommendation_english'], result['image_name'], result.get('blink_rate'), result.get('head_position'), result['speech_rate'], result['disfluency_rate'], result['lexical_variety'])
@@ -337,7 +345,7 @@ def get_check_in_count(user_id):
             FROM check_ins
             WHERE user_id = ?
             """,
-            (user_id,)
+            (user_id)
         ).fetchone()
     return int(row['total'])
 
@@ -432,7 +440,7 @@ def delete_user(user_id):
             DELETE FROM users
             WHERE id = ?
             """,
-            (user_id,)
+            (user_id)
         )
         # Report whether one account was deleted
         return cursor.rowcount == 1
@@ -443,7 +451,7 @@ def get_user_profile(user_id):
         # profile fields
         row = connection.execute(
             "SELECT id, full_name, username, email, profession, address, consent_accepted FROM users WHERE id = ?",
-            (user_id,)
+            (user_id)
         ).fetchone()
     return dict(row) if row else None
 
@@ -463,7 +471,7 @@ def update_user_profile(user_id, username, full_name='', email='', profession=''
         # error
         raise ValueError('password_weak')
     with connect() as connection:
-        row = connection.execute('SELECT username, password_hash FROM users WHERE id = ?', (user_id,)).fetchone()
+        row = connection.execute('SELECT username, password_hash FROM users WHERE id = ?', (user_id)).fetchone()
         # Stop if account can no longer be found
         if row is None:
             raise ValueError('profile_account_missing')
@@ -498,7 +506,7 @@ def save_questionnaire(user_id, answer_labels, personal, work, overall):
             ORDER BY created_at DESC, id DESC
             LIMIT 1
             """,
-            (user_id,)
+            (user_id)
         ).fetchone()
         answers = json.dumps(answer_labels)
         # overwrite today questionnaire instead of adding another
@@ -524,6 +532,21 @@ def save_questionnaire(user_id, answer_labels, personal, work, overall):
                 """,
                 (user_id, answers, personal, work, overall)
             )
+
+        # Refresh comparisons for check ins saved today
+        check_ins = connection.execute(
+            """
+            SELECT id, wellbeing_score
+            FROM check_ins
+            WHERE user_id = ?
+            AND date(created_at, 'localtime') = date('now', 'localtime')
+            """, (user_id)
+        ).fetchall()
+
+        # check in
+        for check_in in check_ins:
+            _record_cbi_comparison(connection,user_id,check_in["id"],check_in["wellbeing_score"])
+
     # notebook ready CSV up to date after every submission
     export_questionnaire_csv()
 
@@ -545,7 +568,7 @@ def questionnaire_reminder_due(user_id, days=7):
     with connect() as connection:
         # no reminder unless the user opted in
         pref = connection.execute(
-            "SELECT reminders_enabled FROM questionnaire_prefs WHERE user_id = ?", (user_id,)
+            "SELECT reminders_enabled FROM questionnaire_prefs WHERE user_id = ?", (user_id)
         ).fetchone()
         if not pref or not pref['reminders_enabled']:
             return False
@@ -556,7 +579,7 @@ def questionnaire_reminder_due(user_id, days=7):
             FROM questionnaire_responses
             WHERE user_id = ?
             """,
-            (user_id,)
+            (user_id)
         ).fetchone()
     return bool(row and row['days'] is not None and row['days'] >= days)
 
@@ -588,5 +611,56 @@ def get_comparisons(user_id=None):
             rows = connection.execute("SELECT * FROM cbi_comparisons ORDER BY created_at DESC, id DESC").fetchall()
         else:
             # select rows
-            rows = connection.execute("SELECT * FROM cbi_comparisons WHERE user_id = ? ORDER BY created_at DESC, id DESC",(user_id,)).fetchall()
+            rows = connection.execute("SELECT * FROM cbi_comparisons WHERE user_id = ? ORDER BY created_at DESC, id DESC",(user_id)).fetchall()
     return [dict(row) for row in rows]
+
+# feedback card is due
+def experience_feedback_due(user_id, interval_days):
+    if interval_days == 0:
+        return True
+    # select user for the feedback
+    with connect() as connection:
+        # select statement
+        row = connection.execute(
+            """
+            SELECT julianday('now') - julianday(
+                COALESCE(p.last_shown_at, u.consent_accepted_at, CURRENT_TIMESTAMP)
+            ) AS elapsed_days
+            FROM users u
+            LEFT JOIN experience_feedback_prompts p ON p.user_id = u.id
+            WHERE u.id = ?
+            """,(user_id)
+        ).fetchone()
+    # return
+    return (row is not None and row["elapsed_days"] is not None and row["elapsed_days"] >= interval_days)
+
+
+# prompt even when user skips it
+def mark_experience_feedback_shown(user_id):
+    with connect() as connection:
+        # insert feedback
+        connection.execute(
+            """
+            INSERT INTO experience_feedback_prompts (user_id, last_shown_at)
+            VALUES (?, CURRENT_TIMESTAMP)
+            ON CONFLICT(user_id) DO UPDATE
+            SET last_shown_at = CURRENT_TIMESTAMP
+            """, (user_id)
+        )
+
+# Save rating and optional comment
+def save_experience_feedback(user_id, rating, comment):
+    if rating not in range(1, 6):
+        raise ValueError("Choose a rating from 1 to 5")
+    # feedback length
+    comment = comment.strip()
+    if len(comment) > 500:
+        raise ValueError("Keep feedback within 500 characters")
+    # insert feedback to database for future improvements
+    with connect() as connection:
+        connection.execute(
+            """
+            INSERT INTO experience_feedback (user_id, rating, comment)
+            VALUES (?, ?, ?)
+            """, (user_id, rating, comment)
+        )

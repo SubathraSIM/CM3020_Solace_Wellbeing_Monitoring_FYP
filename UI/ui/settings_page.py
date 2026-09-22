@@ -8,13 +8,23 @@ from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import QTabWidget, QCheckBox, QComboBox, QDialog, QFrame, QGridLayout, QHBoxLayout,QLabel, QPushButton, QSizePolicy, QVBoxLayout, QWidget
 from UI.ui.home_page import HoverSidebar
 from UI.ui.translations import ENGLISH_TEXT, get_text
+from PySide6.QtWidgets import QPlainTextEdit
+from UI.database.database import save_experience_feedback
 
 # logout confirmation wording to shared translations
 ENGLISH_TEXT.update({
     "logout_dialog_title": "Log out of Solace?",
     "logout_dialog_message": "You'll need to sign in again to continue. Your current chat will be cleared.",
     "logout_cancel": "Cancel",
-    "logout_confirm": "Log out"
+    "logout_confirm": "Log out",
+    "experience_title": "How was your experience?",
+    "experience_note": "Optional feedback to help improve Solace. Saved on this device.",
+    "experience_placeholder": "What worked well or could be better? (optional)",
+    "experience_submit": "Submit feedback",
+    "experience_close": "Skip feedback and log out",
+    "experience_rating": "{rating} out of 5 stars",
+    "experience_failed": "Feedback could not be saved. Try again or close to log out.",
+    "experience_too_long": "Please keep your feedback within 500 characters."
 })
 
 # project folder
@@ -479,3 +489,134 @@ class LogoutDialog(QDialog):
         outer = QVBoxLayout(self)
         outer.setContentsMargins(16, 16, 16, 16)
         outer.addWidget(card)
+
+# Optional feedback before logging out
+class ExperienceFeedbackDialog(QDialog):
+    def __init__(self, user_id, language="English", parent=None):
+        super().__init__(parent)
+        # variables for the feedback
+        self.user_id = user_id
+        self.language = language
+        self.rating = 0
+        t = lambda key: get_text(language, key)
+        self.setModal(True)
+        self.setWindowFlags(Qt.Dialog | Qt.FramelessWindowHint)
+        self.setAttribute(Qt.WA_TranslucentBackground, True)
+        self.setWindowTitle(t("experience_title"))
+        self.setFixedWidth(460)
+
+        # card frame
+        card = QFrame()
+        card.setObjectName("experienceCard")
+
+        # close the card and continue logging out
+        close = QPushButton()
+        close.setObjectName("experienceClose")
+        close.setIcon(QIcon(str(IMAGES / "cross.png")))
+        close.setIconSize(QSize(22, 22))
+        close.setFixedSize(32, 32)
+        close.setAutoDefault(False)
+        close.setCursor(Qt.PointingHandCursor)
+        close.setToolTip(t("experience_close"))
+        close.setAccessibleName(t("experience_close"))
+        close.clicked.connect(self.reject)
+        # close row
+        close_row = QHBoxLayout()
+        close_row.addStretch()
+        close_row.addWidget(close)
+        # title
+        title = QLabel(t("experience_title"))
+        title.setObjectName("experienceTitle")
+        title.setWordWrap(True)
+        # note
+        note = QLabel(t("experience_note"))
+        note.setObjectName("experienceNote")
+        note.setWordWrap(True)
+
+        # Choose between one and five stars
+        stars_row = QHBoxLayout()
+        stars_row.setSpacing(6)
+        stars_row.addStretch()
+        self.stars = []
+        # star image is used
+        for value in range(1, 6):
+            star = QPushButton()
+            star.setObjectName("experienceStar")
+            star.setIcon(QIcon(str(IMAGES / "star.png")))
+            star.setIconSize(QSize(100, 100))
+            star.setFixedSize(44, 44)
+            star.setAutoDefault(False)
+            star.setCheckable(True)
+            star.setCursor(Qt.PointingHandCursor)
+            star.setAccessibleName(t("experience_rating").format(rating=value))
+            star.setToolTip(t("experience_rating").format(rating=value))
+            star.clicked.connect(lambda checked=False, rating=value: self.set_rating(rating))
+            self.stars.append(star)
+            stars_row.addWidget(star)
+
+        stars_row.addStretch()
+
+        # written feedback short and optional
+        self.comment = QPlainTextEdit()
+        self.comment.setObjectName("experienceComment")
+        self.comment.setPlaceholderText(t("experience_placeholder"))
+        self.comment.setAccessibleName(t("experience_placeholder"))
+        self.comment.setFixedHeight(80)
+        # error
+        self.error = QLabel()
+        self.error.setObjectName("experienceError")
+        self.error.setWordWrap(True)
+        self.error.hide()
+        # submit button
+        self.submit_button = QPushButton(t("experience_submit"))
+        self.submit_button.setObjectName("primaryButton")
+        self.submit_button.setMinimumHeight(40)
+        self.submit_button.setAutoDefault(False)
+        self.submit_button.setCursor(Qt.PointingHandCursor)
+        self.submit_button.setEnabled(False)
+        self.submit_button.clicked.connect(self.submit_feedback)
+        # layout
+        layout = QVBoxLayout(card)
+        layout.setContentsMargins(22, 14, 22, 20)
+        layout.setSpacing(8)
+        layout.addLayout(close_row)
+        layout.addWidget(title)
+        layout.addWidget(note)
+        layout.addLayout(stars_row)
+        layout.addWidget(self.comment)
+        layout.addWidget(self.error)
+        layout.addWidget(self.submit_button)
+        # outer
+        outer = QVBoxLayout(self)
+        outer.setContentsMargins(12, 12, 12, 12)
+        outer.addWidget(card)
+
+    # Highlight selected number of stars
+    def set_rating(self, rating):
+        self.rating = rating
+        for value, star in enumerate(self.stars, start=1):
+            star.setChecked(value <= rating)
+        self.submit_button.setEnabled(True)
+
+    # Close after feedback has been saved
+    def submit_feedback(self):
+        comment = self.comment.toPlainText().strip()
+        # if comment more than 500 
+        if len(comment) > 500:
+            self.error.setText(get_text(self.language, "experience_too_long"))
+            self.error.show()
+            return
+        # submit button
+        self.submit_button.setEnabled(False)
+        self.error.hide()
+
+        try:
+            save_experience_feedback(self.user_id, self.rating, comment)
+        # error
+        except Exception:
+            self.error.setText(get_text(self.language, "experience_failed"))
+            self.error.show()
+            self.submit_button.setEnabled(True)
+            return
+        # accept
+        self.accept()

@@ -1,6 +1,7 @@
 # Import required libraies
 from UI.ui.account_widgets import AvatarButton
-from UI.ui.settings_page import DeleteAccountDialog, LogoutDialog
+from UI.ui.settings_page import DeleteAccountDialog, LogoutDialog, ExperienceFeedbackDialog
+from UI.database.database import experience_feedback_due, mark_experience_feedback_shown
 from UI.database.database import create_database, get_user_profile, update_user_profile, delete_user
 from PySide6.QtWidgets import QMessageBox
 from pathlib import Path
@@ -16,6 +17,9 @@ from UI.ui.login_page import LoginPage
 from UI.ui.register_page import RegisterPage
 from UI.ui.settings_page import SettingsPage
 from UI.ui.trends_page import TrendsPage
+
+# feedback 30 days after
+FEEDBACK_INTERVAL_DAYS = 30
 
 # connect pages and manage current account
 class MainWindow(QMainWindow):
@@ -329,7 +333,22 @@ class MainWindow(QMainWindow):
         # Stop recording page cannot be reset
         if not self.check_in_page.reset_page():
             return
-        
+
+        # feedback only during normal confirmed logout
+        if confirm and self.current_user is not None:
+            user_id = self.current_user["id"]
+            try:
+                # show the feedback section
+                show_feedback = experience_feedback_due(user_id, FEEDBACK_INTERVAL_DAYS)
+                if show_feedback:
+                    mark_experience_feedback_shown(user_id)
+            except Exception:
+                # logout available if database is unavailable
+                show_feedback = False
+            # if show feedback show the card
+            if show_feedback:
+                ExperienceFeedbackDialog(user_id, self.current_language, self).exec()
+
         # Clear profile details credentials and page data for logout
         self.settings_page.profile_panel.set_profile({})
         self.current_user = None

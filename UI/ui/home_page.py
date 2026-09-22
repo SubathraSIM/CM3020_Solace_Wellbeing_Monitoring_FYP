@@ -4,7 +4,7 @@ from UI.ui.account_widgets import add_avatar
 from pathlib import Path
 from PySide6.QtCore import QDateTime, QEasingCurve, QLocale, QSize, Qt, QTimer, QVariantAnimation, Signal
 from PySide6.QtGui import QIcon, QPixmap
-from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QPushButton,QSizePolicy, QVBoxLayout, QWidget, QScrollArea
+from PySide6.QtWidgets import QApplication, QFrame, QHBoxLayout, QLabel, QPushButton,QSizePolicy, QVBoxLayout, QWidget, QScrollArea
 from UI.ui.ui_components import GardenArtwork, AnimatedIllustration, scroll_page, reveal, float_in
 from UI.ui.resources import RESOURCES, ResourceDialog, home_resources_for_language
 from UI.ui.translations import ENGLISH_TEXT, get_text
@@ -18,8 +18,13 @@ LOCALES = {"English": "en_SG","Malay": "ms_MY","Chinese": "zh_CN","Tamil": "ta_I
 
 # English wording for the home page
 HOME_TEXT = {
+    "support_copy": "Copy number",
+    "support_copied": "Copied",
+    "support_hint": "Call 1771 from your phone for mental health support in Singapore",
     "assistant": "Assistant",
     "questionnaire": "Questionnaire",
+    "home_questionnaire_title": "Your wellbeing questionnaire",
+    "home_questionnaire_desc": "Take a moment to reflect on how you have been feeling.",
     "home_eyebrow": "PRIVATE WELLBEING CHECK-IN",
     "home_description": "Take a short check-in to reflect on how you are feeling today.",
     "good_morning": "Good morning",
@@ -106,6 +111,59 @@ class HoverSidebar(QFrame):
         self.settings_button.clicked.connect(self.settings_requested.emit)
         self.logout_button.clicked.connect(self.logout_requested.emit)
 
+        # small card Singapore mental health support
+        self.support_card = QFrame()
+        self.support_card.setObjectName("sidebarSupportCard")
+        self.support_card.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+
+        # support layout
+        support_layout = QVBoxLayout(self.support_card)
+        support_layout.setContentsMargins(12, 10, 12, 10)
+        support_layout.setSpacing(6)
+
+        # support name
+        support_name = QLabel("national mindline")
+        support_name.setObjectName("sidebarSupportName")
+
+        # support number
+        support_number = QLabel("1771")
+        support_number.setObjectName("sidebarSupportNumber")
+        support_number.setTextInteractionFlags(Qt.TextSelectableByMouse)
+
+        # support hours
+        support_hours = QLabel("24/7")
+        support_hours.setObjectName("sidebarSupportHours")
+
+        # number and availability apart
+        support_row = QHBoxLayout()
+        support_row.addWidget(support_number)
+        support_row.addStretch()
+        support_row.addWidget(support_hours)
+
+        # copy button
+        self.support_copy = QPushButton()
+        self.support_copy.setObjectName("sidebarSupportCopy")
+        self.support_copy.setCursor(Qt.PointingHandCursor)
+        self.support_copy.clicked.connect(self.copy_support_number)
+
+        # layout
+        support_layout.addWidget(support_name)
+        support_layout.addLayout(support_row)
+        support_layout.addWidget(self.support_copy)
+
+        # Restore button text after copying
+        self.support_timer = QTimer(self)
+        self.support_timer.setSingleShot(True)
+        self.support_timer.setInterval(2000)
+        self.support_timer.timeout.connect(
+            lambda: self.support_copy.setText(
+                get_text(self.current_language, "support_copy")
+            )
+        )
+
+        # remove focus highlight when message resets
+        self.support_timer.timeout.connect(self.support_copy.clearFocus)
+
         # settings and logout below the main navigation links
         layout = QVBoxLayout(self)
         layout.setContentsMargins(14, 20, 14, 20)
@@ -118,9 +176,16 @@ class HoverSidebar(QFrame):
         layout.addWidget(self.assistant_button)
         layout.addWidget(self.questionnaire_button)
         layout.addStretch()
+        layout.addWidget(self.support_card)
         layout.addWidget(self.settings_button)
         layout.addWidget(self.logout_button)
         self.set_expanded(self.expanded)
+
+    # Copy helpline number without starting a call
+    def copy_support_number(self):
+        QApplication.clipboard().setText("1771")
+        self.support_copy.setText(get_text(self.current_language, "support_copied"))
+        self.support_timer.start()
 
     # sidebar button
     def make_button(self, image, key, active=False):
@@ -144,6 +209,12 @@ class HoverSidebar(QFrame):
     def set_language(self, language):
         self.current_language = language
         tamil = language == "Tamil"
+
+        # support wording in selected language
+        self.support_timer.stop()
+        self.support_copy.setText(get_text(language, "support_copy"))
+        self.support_copy.setToolTip(get_text(language, "support_hint"))
+        self.support_card.setToolTip(get_text(language, "support_hint"))
 
         for button in self.buttons():
             # each button label and its accessible name
@@ -173,6 +244,9 @@ class HoverSidebar(QFrame):
         # Stop previous animation before changing direction
         self.width_animation.stop()
         self.expanded = bool(expanded)
+
+        # Hide support card when sidebar closes
+        self.support_card.setVisible(self.expanded)
 
         # new state with the other pages
         HoverSidebar._shared_expanded = self.expanded
@@ -263,9 +337,12 @@ class HomePage(QWidget):
         quick.setSpacing(16)
         self.quick_labels = []
 
-        # quick links for trends and the assistant
+        # Quick links to trends, the assistant and questionnaire
         for title, description, signal, icon in [
-            ('home_trends_title', 'home_trends_desc', self.trends_requested, 'trends_icon'), ('home_assistant_title', 'home_assistant_desc', self.assistant_requested, 'white_heart')]:
+            ('home_trends_title', 'home_trends_desc', self.trends_requested, 'trends_icon'),
+            ('home_assistant_title', 'home_assistant_desc', self.assistant_requested, 'white_heart'),
+            ('home_questionnaire_title', 'home_questionnaire_desc', self.sidebar.questionnaire_requested, 'questionnaire_icon'),
+        ]:
             #card
             card = QPushButton()
             card.setObjectName('quickCard')
@@ -278,7 +355,9 @@ class HomePage(QWidget):
             inside.setContentsMargins(16, 12, 16, 12)
 
             # heading
-            heading = QLabel(); heading.setObjectName('featureTitle')
+            heading = QLabel()
+            heading.setObjectName('featureTitle')
+            heading.setWordWrap(True)
             note = QLabel(); note.setObjectName('featureDescription'); note.setWordWrap(True)
             for label in (heading, note):
                 label.setAttribute(Qt.WA_TransparentForMouseEvents)

@@ -1116,3 +1116,140 @@ QPushButton#uploadCloseButton:pressed {
     border: 1px solid #DFE5EF; 
     border-radius: 14px; 
 }
+
+/* support card in sidebar */
+#sidebarSupportCard {
+    background-color: rgba(255, 255, 255, 12);
+    border: 1px solid rgba(255, 255, 255, 25);
+    border-radius: 12px;
+}
+
+/* label above helpline number */
+#sidebarSupportName {
+    color: #D3DFEF;
+    font-size: 12px;
+    font-weight: 400;
+    background: transparent;
+    border: none;
+}
+
+/* phone number prominent */
+#sidebarSupportNumber {
+    color: #FFFFFF;
+    font-size: 24px;
+    font-weight: 600;
+    background: transparent;
+    border: none;
+}
+
+/* badge for round the clock support */
+#sidebarSupportHours {
+    color: #C3E5D5;
+    background-color: rgba(167, 215, 190, 20);
+    border: none;
+    border-radius: 6px;
+    padding: 3px 6px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+/* button that fits card */
+#sidebarSupportCopy {
+    color: #E2EBF7;
+    background-color: rgba(255, 255, 255, 14);
+    border: 1px solid transparent;
+    border-radius: 7px;
+    padding: 5px 4px;
+    min-height: 18px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+/* feedback for mouse and keyboard use */
+#sidebarSupportCopy:hover, #sidebarSupportCopy:focus {
+    color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 28);
+    border: 1px solid #8DAACD;
+}
+
+/* support copy */
+#sidebarSupportCopy:pressed {
+    background-color: rgba(255, 255, 255, 40);
+}
+
+/* compact feedback card */
+#experienceCard {
+    background: #FFFFFF;
+    border: 1px solid #D6E1F2;
+    border-radius: 14px;
+}
+
+/* experience title */
+#experienceTitle {
+    color: #253550;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* experience note */
+#experienceNote {
+    color: #607695;
+    font-size: 12px;
+}
+
+/* Close feedback without submitting */
+#experienceClose {
+    background: transparent;
+    border: 1px solid #D6E1F2;
+    border-radius: 8px;
+    padding: 0px;
+}
+
+/* experience hover */
+#experienceClose:hover, #experienceClose:focus {
+    background: #F0F4FB;
+    border: 1px solid #7396D5;
+}
+
+/* Clear star choices */
+#experienceStar {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 0px;
+    color: #718099;
+    font-size: 29px;
+}
+
+/* star bacground */
+#experienceStar:checked {
+    background: #FFF0CC;
+    border: 1px solid #D7AF65;
+}
+
+/* star bacground hover */
+#experienceStar:hover, #experienceStar:focus {
+    background: #FFF4DE;
+    border: 1px solid #D7AF65;
+}
+
+/* short space for comments */
+#experienceComment {
+    background: #FAFCFF;
+    color: #253550;
+    border: 1px solid #D6E1F2;
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 13px;
+}
+
+/* experience comment */
+#experienceComment:focus {
+    border: 1px solid #7396D5;
+}
+
+/* experience error */
+#experienceError {
+    color: #A33B47;
+    font-size: 12px;
+}

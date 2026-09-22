@@ -14,7 +14,7 @@ QUESTIONNAIRE_TEXT = {
     "questionnaire": "Questionnaire",
     "cbi_title": "Wellbeing questionnaire",
     "cbi_subtitle": "A short, validated burnout check-in (Copenhagen Burnout Inventory).",
-    "cbi_intro": "This questionnaire is optional. If you choose to take it, please answer every question, then submit. Your answers are private and stored only on this device.",
+    "cbi_intro": "This questionnaire is optional. To compare your questionnaire and check-in results, complete both on the same day, in either order. You can also complete either one on its own. If you take the questionnaire, please answer every question. Your answers are stored only on this device.",
     "cbi_progress": "Questions {start}-{end} of 13",
     "cbi_back": "Back",
     "cbi_next": "Next",

@@ -81,3 +81,20 @@ CREATE TABLE IF NOT EXISTS cbi_comparisons (
     FOREIGN KEY (questionnaire_id) REFERENCES questionnaire_responses(id) ON DELETE CASCADE,
     FOREIGN KEY (check_in_id) REFERENCES check_ins(id) ON DELETE CASCADE
 );
+
+-- optional experience feedback
+CREATE TABLE IF NOT EXISTS experience_feedback (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    rating INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    comment TEXT NOT NULL DEFAULT '',
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Remember each user last saw feedback card
+CREATE TABLE IF NOT EXISTS experience_feedback_prompts (
+    user_id INTEGER PRIMARY KEY,
+    last_shown_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
