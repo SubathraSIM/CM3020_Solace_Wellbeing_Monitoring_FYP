@@ -72,34 +72,8 @@ def scroll_page(content):
     scroll.setWidget(content)
     return scroll
 
-
-# Fade the widget into view
-def reveal(widget):
-    # Skip animation when reduced motion is enabled
-    if os.environ.get('SOLACE_REDUCED_MOTION') == '1':
-        return
-    # Stop and release any previous fade animation
-    old = getattr(widget, "_reveal_animation", None)
-    if old is not None:
-        old.stop()
-        old.deleteLater()
-    # Apply opacity effect for fade
-    effect = QGraphicsOpacityEffect(widget)
-    widget.setGraphicsEffect(effect)
-
-    # Fade from partly transparent to fully visible
-    animation = QPropertyAnimation(effect, b'opacity', widget)
-    animation.setDuration(340)
-    animation.setStartValue(0.3)
-    animation.setEndValue(1.0)
-    animation.setEasingCurve(QEasingCurve.OutCubic)
-
-    # Keep animation alive on the widget
-    widget._reveal_animation = animation
-    animation.start()
-
-# Fade and slide the widget into place
-def float_in(widget, rise=28, duration=560):
+# Fade in without moving the page
+def float_in(widget, duration=560):
     # skip animation when reduced motion is enabled
     if os.environ.get('SOLACE_REDUCED_MOTION') == '1':
         return
@@ -120,20 +94,9 @@ def float_in(widget, rise=28, duration=560):
     fade.setEndValue(1.0)
     fade.setEasingCurve(QEasingCurve.OutCubic)
 
-    # final position before preparing the slide
-    pos = widget.pos()
-
-    # Slide the widget upward to its original position
-    slide = QPropertyAnimation(widget, b'pos', widget)
-    slide.setDuration(duration)
-    slide.setStartValue(QPoint(pos.x(), pos.y() + rise))
-    slide.setEndValue(pos)
-    slide.setEasingCurve(QEasingCurve.OutCubic)
-
-    # Run the fade and slide together and keep the group alive
+    # Fade in while the layout controls the page position
     group = QParallelAnimationGroup(widget)
     group.addAnimation(fade)
-    group.addAnimation(slide)
     widget._float_group = group
     group.start()
 

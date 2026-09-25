@@ -1,7 +1,6 @@
 # Import required libraries
 from statistics import mean
 from PySide6.QtCore import Qt, Signal
-from PySide6.QtCore import QPointF, QRectF, QSize, Qt, QTimer, QUrl, Signal
 from PySide6.QtWidgets import QButtonGroup, QDialog, QFrame, QHBoxLayout, QLabel,QPushButton, QStackedWidget, QVBoxLayout, QWidget
 from UI.ui.account_widgets import add_avatar
 from UI.ui.home_page import HoverSidebar

@@ -1,7 +1,7 @@
 # Import required libraies
 from UI.ui.account_widgets import PasswordEdit
 from pathlib import Path
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import Qt, Signal, QTimer
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QComboBox, QFrame, QHBoxLayout, QLabel, QLineEdit,QPushButton, QVBoxLayout, QWidget
 from UI.ui.ui_components import GardenArtwork, FloatCard
@@ -63,6 +63,7 @@ class LoginPage(QWidget):
 
     def __init__(self):
         super().__init__()
+        self.setFocusPolicy(Qt.ClickFocus)
         # page in English
         self.current_language = "English"
 
@@ -322,6 +323,8 @@ class LoginPage(QWidget):
     def showEvent(self, event):
         super().showEvent(event)
         self.card_host.play()
+        # Keep focus off the fields when the page opens
+        QTimer.singleShot(0, self.setFocus)
 
     # Show success or error message
     def show_status(self, message, status_type):

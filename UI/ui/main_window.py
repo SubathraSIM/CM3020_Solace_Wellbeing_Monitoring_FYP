@@ -8,7 +8,6 @@ from pathlib import Path
 from PySide6.QtWidgets import QDialog, QMainWindow, QStackedWidget
 from UI.ui.assistant_page import AssistantPage
 from UI.database.database import authenticate_user,create_user,save_consent
-from UI.ui.assistant_page import AssistantPage
 from UI.ui.check_in_page import CheckInPage
 from UI.ui.consent_dialog import ConsentDialog,ThankYouDialog
 from UI.ui.home_page import HomePage
@@ -260,9 +259,9 @@ class MainWindow(QMainWindow):
     def finish_registration(self):
         self.register_page.clear_fields()
         self.show_login_page()
-        # new username and focus password field
+        # Fill the username without selecting a field
         self.login_page.username_input.setText(self.pending_username)
-        self.login_page.password_input.setFocus()
+        self.login_page.setFocus()
         self.login_page.show_status(self.login_page.t("account_created_login"),"success")
         self.pending_username = ""
 
@@ -365,7 +364,7 @@ class MainWindow(QMainWindow):
             self.assistant_page.clear_chat()
         self.pages.setCurrentWidget(self.login_page)
         self.login_page.set_language(self.current_language)
-        self.login_page.username_input.setFocus()
+        self.login_page.setFocus()
 
     # Update profile buttons for signed in user
     def refresh_avatars(self):

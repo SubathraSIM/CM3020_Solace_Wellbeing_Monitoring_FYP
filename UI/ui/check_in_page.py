@@ -4,13 +4,13 @@ import math, random, re, struct, sys, tempfile, wave
 from datetime import datetime
 from pathlib import Path
 import librosa
-from PySide6.QtCore import QPointF, QRectF, QSize, Qt, QTimer, QUrl, Signal
+from PySide6.QtCore import QPointF, QRectF, QSize, Qt, QTimer, QUrl, Signal, QDate
 from PySide6.QtGui import QColor, QIcon, QPainter, QPen, QPixmap
 from PySide6.QtMultimedia import QAudioFormat, QAudioInput, QAudioOutput, QAudioSource, QCamera,QMediaCaptureSession, QMediaDevices, QMediaFormat, QMediaPlayer,QMediaRecorder
 from PySide6.QtMultimediaWidgets import QVideoWidget
-from PySide6.QtWidgets import QMessageBox, QTabWidget, QSplitter, QComboBox, QDialog, QFileDialog, QFrame, QGridLayout, QHBoxLayout,QLabel, QPlainTextEdit, QProgressBar, QPushButton, QSizePolicy,QStackedWidget, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QMessageBox, QTabWidget, QSplitter, QComboBox, QDialog, QFileDialog, QFrame, QGridLayout, QHBoxLayout,QLabel, QPlainTextEdit, QProgressBar, QPushButton, QSizePolicy,QStackedWidget, QVBoxLayout, QWidget, QToolTip
 from UI.ai.multimodal_pipeline import AnalysisWorker, TranscriptionWorker
-from UI.database.database import get_recent_scores, get_previous_scores, get_previous_strain_scores, save_check_in
+from UI.database.database import get_recent_scores, get_previous_strain_scores, save_check_in
 from UI.ui.home_page import HoverSidebar
 from UI.ui.ui_components import float_in
 from UI.ui.translations import ENGLISH_TEXT, get_text
@@ -135,6 +135,12 @@ CHECKIN_TEXT = {
 
 # check in wording to the shared translation system
 ENGLISH_TEXT.update(CHECKIN_TEXT)
+
+ENGLISH_TEXT.update({
+    "trend_band_high": "High wellbeing",
+    "trend_band_mid": "Moderate wellbeing",
+    "trend_band_low": "Low wellbeing",
+})
 
 # label with the requested options
 def label(name="", wrap=False, align=None):
@@ -268,12 +274,19 @@ class MiniTrendGraph(QWidget):
     def __init__(self):
         super().__init__()
         self.points = []
+        self.plot_points = []
+        self.current_language = "English"
+
+        # Track the pointer without needing a click
+        self.setMouseTracking(True)
         self.setMinimumHeight(100)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
     # Update scores shown in the graph
     def set_points(self, points):
         self.points = points
+        self.plot_points = []
+        QToolTip.hideText()
         self.update()
 
     # Draw saved scores and date labels
@@ -308,6 +321,9 @@ class MiniTrendGraph(QWidget):
             score = float(item["score"])
             points.append(QPointF(left + i * step, top + (100 - score) / 100 * height))
 
+        # Keep marker positions for the hover tooltip
+        self.plot_points = points
+
         # set pen colour
         p.setPen(QPen(QColor("#5579BE"), 3))
 
@@ -326,9 +342,63 @@ class MiniTrendGraph(QWidget):
         # set pen with colour
         p.setPen(QColor("#94A3B8"))
 
-        # first and last dates on the graph
-        p.drawText(QRectF(left, self.height() - 20, width / 2, 16),Qt.AlignLeft, str(self.points[0].get("day", "")))
-        p.drawText(QRectF(left + width / 2, self.height() - 20, width / 2, 16),Qt.AlignRight, str(self.points[-1].get("day", "")))
+        # Show the day and month at three positions
+        middle = (len(self.points) - 1) // 2
+        labels = [
+            (0, left, Qt.AlignLeft),
+            (middle, points[middle].x() - width / 6, Qt.AlignCenter),
+            (len(self.points) - 1, left + 2 * width / 3, Qt.AlignRight)
+        ]
+
+        for index, x, alignment in labels:
+            date = QDate.fromString(self.points[index]["date"], "yyyy-MM-dd")
+            text = self.locale().toString(date, "d MMM")
+            p.drawText(QRectF(x, self.height() - 20, width / 3, 18), alignment, text)
+
+        # Show the date and wellbeing band near a marker
+    def mouseMoveEvent(self, event):
+        if not self.plot_points:
+            QToolTip.hideText()
+            return
+
+        position = event.position()
+
+        # Find the closest marker
+        index = min(
+            range(len(self.plot_points)),
+            key=lambda i: (
+                (position.x() - self.plot_points[i].x()) ** 2 + (position.y() - self.plot_points[i].y()) ** 2
+            )
+        )
+
+        point = self.plot_points[index]
+        distance = ((position.x() - point.x()) ** 2 + (position.y() - point.y()) ** 2)
+
+        # Hide the tooltip when the pointer moves away
+        if distance > 12 ** 2:
+            QToolTip.hideText()
+            return
+
+        item = self.points[index]
+        score = float(item["score"])
+
+        if score >= 67:
+            band_key = "trend_band_high"
+        elif score >= 34:
+            band_key = "trend_band_mid"
+        else:
+            band_key = "trend_band_low"
+
+        date = QDate.fromString(item["date"], "yyyy-MM-dd")
+        date_text = self.locale().toString(date, "d MMM yyyy")
+        band = get_text(self.current_language, band_key)
+
+        QToolTip.showText(event.globalPosition().toPoint(), f"{date_text}\n{band}", self)
+
+    # Clear the tooltip when leaving the graph
+    def leaveEvent(self, event):
+        QToolTip.hideText()
+        super().leaveEvent(event)
 
 # audio or video recording to upload
 class UploadDialog(QDialog):
@@ -906,8 +976,8 @@ class CheckInPage(QWidget):
 
         # Create card shown while analysis is running
         card = frame("processingCard")
-        card.setFixedWidth(560)
-        card.setMinimumHeight(440)
+        card.setFixedWidth(500)
+        card.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
 
         # Add spinner and translated progress labels
         self.spinner = LoadingSpinner()
@@ -917,8 +987,8 @@ class CheckInPage(QWidget):
 
         # inside
         inside = QVBoxLayout(card)
-        inside.setContentsMargins(70, 60, 70, 60)
-        inside.setSpacing(18)
+        inside.setContentsMargins(28, 24, 28, 24)
+        inside.setSpacing(12)
         inside.addWidget(self.spinner, 0, Qt.AlignCenter)
         inside.addWidget(self.processing_title)
         inside.addWidget(self.processing_message)

@@ -4,8 +4,8 @@ from UI.ui.account_widgets import add_avatar
 from pathlib import Path
 from PySide6.QtCore import QDateTime, QEasingCurve, QLocale, QSize, Qt, QTimer, QVariantAnimation, Signal
 from PySide6.QtGui import QIcon, QPixmap
-from PySide6.QtWidgets import QApplication, QFrame, QHBoxLayout, QLabel, QPushButton,QSizePolicy, QVBoxLayout, QWidget, QScrollArea
-from UI.ui.ui_components import GardenArtwork, AnimatedIllustration, scroll_page, reveal, float_in
+from PySide6.QtWidgets import QApplication, QFrame, QHBoxLayout, QLabel, QPushButton, QSizePolicy, QVBoxLayout, QWidget
+from UI.ui.ui_components import AnimatedIllustration, float_in
 from UI.ui.resources import RESOURCES, ResourceDialog, home_resources_for_language
 from UI.ui.translations import ENGLISH_TEXT, get_text
 
@@ -73,7 +73,7 @@ class HoverSidebar(QFrame):
 
         # smooth animation when changing the sidebar width
         self.width_animation = QVariantAnimation(self)
-        self.width_animation.setDuration(280)
+        self.width_animation.setDuration(400)
         self.width_animation.setEasingCurve(QEasingCurve.InOutCubic)
 
         # Resize sidebar as the animation progresses
@@ -144,6 +144,7 @@ class HoverSidebar(QFrame):
         self.support_copy = QPushButton()
         self.support_copy.setObjectName("sidebarSupportCopy")
         self.support_copy.setCursor(Qt.PointingHandCursor)
+        self.support_copy.setFocusPolicy(Qt.ClickFocus)
         self.support_copy.clicked.connect(self.copy_support_number)
 
         # layout
@@ -237,7 +238,7 @@ class HoverSidebar(QFrame):
 
     # Open or close the sidebar
     def toggle(self):
-        self.set_expanded(not self.expanded, animate=False)
+        self.set_expanded(not self.expanded, animate=True)
 
     # Set sidebar width with optional animation
     def set_expanded(self, expanded, animate=False):

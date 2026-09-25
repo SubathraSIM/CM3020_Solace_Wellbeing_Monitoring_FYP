@@ -1,5 +1,4 @@
 # Import required libraries
-from matplotlib import image
 from UI.ui.account_widgets import add_avatar
 import re
 from pathlib import Path
@@ -527,6 +526,12 @@ class TrendsPage(QWidget):
         self.translation_request += 1
         self.current_language = language
         self.locale = QLocale(LOCALES[language])
+
+        # Match graph dates and bands to the selected language
+        self.trend_graph.setLocale(self.locale)
+        self.trend_graph.current_language = language
+        self.trend_graph.update()
+
         self.sidebar.set_language(language)
         self.calendar.setLocale(self.locale)
 

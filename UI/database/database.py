@@ -303,22 +303,6 @@ def get_recent_scores(user_id, limit=7):
     # newest first query results for the trend view
     return [float(row['wellbeing_score']) for row in reversed(rows)]
 
-# requested number of past wellbeing scores
-def get_previous_scores(user_id, limit=30):
-    with connect() as connection:
-        # select statement
-        rows = connection.execute(
-            """
-            SELECT wellbeing_score
-            FROM check_ins
-            WHERE user_id = ?
-            ORDER BY created_at DESC, id DESC
-            LIMIT ?
-            """,
-            (user_id, limit)
-        ).fetchall()
-    return [float(row['wellbeing_score']) for row in reversed(rows)]
-
 # past strain scores from oldest to newest
 def get_previous_strain_scores(user_id, limit=30):
     with connect() as connection:
@@ -602,17 +586,6 @@ def export_questionnaire_csv(path=None):
             answers = json.loads(row['answers_json'])
             writer.writerow([row['created_at'], row['user_id']] + answers)
     return path
-
-# stored comparisons newest first
-def get_comparisons(user_id=None):
-    with connect() as connection:
-        if user_id is None:
-            # select rows
-            rows = connection.execute("SELECT * FROM cbi_comparisons ORDER BY created_at DESC, id DESC").fetchall()
-        else:
-            # select rows
-            rows = connection.execute("SELECT * FROM cbi_comparisons WHERE user_id = ? ORDER BY created_at DESC, id DESC",(user_id,)).fetchall()
-    return [dict(row) for row in rows]
 
 # feedback card is due
 def experience_feedback_due(user_id, interval_days):

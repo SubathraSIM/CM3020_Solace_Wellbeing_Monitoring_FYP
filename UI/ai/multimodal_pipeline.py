@@ -99,9 +99,8 @@ _DDAMFN_TF = _transforms.Compose([ _transforms.Resize((112, 112)), _transforms.T
 #  pretrained model names in one place
 TEXT_MODEL_ID = "j-hartmann/emotion-english-roberta-large"
 AUDIO_MODEL_ID = "MERaLiON/MERaLiON-SER-v1"
-VISION_MODEL_ID = "mo-thecreator/vit-Facial-Expression-Recognition"
 WHISPER_MODEL_ID = "openai/whisper-small"
-RECOMMENDATION_MODEL_ID = "Qwen/Qwen3-1.7B"
+RECOMMENDATION_MODEL_ID = "Qwen/Qwen2.5-1.5B-Instruct"
 
 # supported languages to Whisper language codes
 WHISPER_LANGUAGES = {"English": "en","Malay": "ms","Chinese": "zh","Tamil": "ta"}
@@ -120,14 +119,7 @@ LABEL_ALIASES = {
     "disgusted": "disgust", "disgust": "disgust",
     "happy": "happy", "happiness": "happy", "joy": "happy",
     "neutral": "neutral",
-    "surprised": "surprise", "surprise": "surprise",
-    "label_0": "anger",
-    "label_1": "disgust",
-    "label_2": "fear",
-    "label_3": "happy",
-    "label_4": "sadness",
-    "label_5": "surprise",
-    "label_6": "neutral"
+    "surprised": "surprise", "surprise": "surprise"
 }
 
 # speech rate ranges used for each language
@@ -181,7 +173,6 @@ class MultimodalPipeline:
         self.text_model = None
         self.audio_processor = None
         self.audio_model = None
-        self.vision_model = None
         self.qwen = None
 
     # Load Whisper once and reuse it for speech recognition
@@ -207,12 +198,6 @@ class MultimodalPipeline:
             # evaluation mode for predictions
             self.audio_model.eval()
         return self.audio_processor, self.audio_model
-
-    # image classification pipeline when requested
-    def load_vision_model(self):
-        if self.vision_model is None:
-            self.vision_model = hf_pipeline("image-classification",model=VISION_MODEL_ID,device=self.device,top_k=None)
-        return self.vision_model
     
     # Load DDAMFN with the saved facial expression weights
     def load_ddamfn(self):
@@ -564,7 +549,7 @@ class MultimodalPipeline:
         ]
 
         # prompt with Qwen thinking mode disabled
-        prompt = generator.tokenizer.apply_chat_template(messages,tokenize=False,add_generation_prompt=True,enable_thinking=False)
+        prompt = generator.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
         # short reply without random sampling
         english = generator(prompt,max_new_tokens=180,do_sample=False,return_full_text=False,pad_token_id=generator.tokenizer.eos_token_id,)[0]["generated_text"].strip()
         # Release Qwen before running translation
@@ -696,7 +681,6 @@ class MultimodalPipeline:
         self.text_model = None
         self.audio_processor = None
         self.audio_model = None
-        self.vision_model = None
         self.ddamfn_model = None
         self.clean_memory()
 

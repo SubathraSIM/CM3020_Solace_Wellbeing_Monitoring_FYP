@@ -10,7 +10,7 @@ from UI.ui.translations import translate_text, get_text
 from UI.ui.resources import resources_for_score
 
 # assistant model and supported languages together
-AGENT_MODEL_ID = "Qwen/Qwen3-1.7B"
+AGENT_MODEL_ID = "Qwen/Qwen2.5-1.5B-Instruct"
 SUPPORTED_LANGUAGES = {"English","Malay","Chinese","Tamil"}
 
 # fixed wording for resource cards
@@ -29,8 +29,8 @@ RESOURCE_WORDING = {
         "assistant_ms_takefive": ("Amalkan tabiat untuk kesejahteraan diri", "Maklumat bahasa Melayu tentang hubungan sosial, aktiviti dan amalan TAKE 5"),
         "assistant_ms_mental_health": ("Fahami kesihatan mental", "Risalah bahasa Melayu tentang kesihatan mental daripada Kementerian Kesihatan Malaysia"),
         "assistant_ms_positive_steps": ("Ambil langkah positif", "Poster bahasa Melayu tentang langkah positif untuk kesejahteraan mental"),
-        "assistant_ms_misconceptions": ("Fahami salah tanggapan tentang penyakit mental", "Risalah bahasa Melayu yang menjelaskan salah tanggapan tentang penyakit mental"),
-    },
+        "assistant_ms_misconceptions": ("Fahami salah tanggapan tentang penyakit mental", "Risalah bahasa Melayu yang menjelaskan salah tanggapan tentang penyakit mental")
+    }
 }
 
 # tool choices to the functions provided by Solace
@@ -144,8 +144,6 @@ Routing examples:
 These examples illustrate meaning, not exact phrases to match.
 Read the whole message and its context.
 Tiredness alone is not evidence of an urgent crisis.
-
-/no_think
 """.strip()
 
 # rules for answering from saved data and tool results
@@ -169,8 +167,6 @@ Safety boundaries:
 - Stay within Solace and wellbeing topics.
 - For unrelated requests such as writing code, politely decline and offer help with Solace or wellbeing instead.
 - Do not complete an unrelated task before redirecting the user.
-
-/no_think
 """.strip()
 
 # Answer questions using Solace information and user saved history
@@ -184,15 +180,6 @@ class SolaceAgent:
         # Load Qwen only when reply needs it
         self.qwen = None
         self.last_tool = None
-
-    # switch account used for personal data queries
-    def set_user(self, user_id):
-        self.user_id = user_id
-
-    # Accept only supported interface languages
-    def set_language(self, language_name):
-        if language_name in SUPPORTED_LANGUAGES:
-            self.language_name = language_name
 
     # load Qwen once and reuse it for current reply
     def load_qwen(self):
@@ -329,7 +316,7 @@ class SolaceAgent:
             },
         ]
         # short decision without random sampling
-        result = generator(messages,max_new_tokens=60,do_sample=False,pad_token_id=(generator.tokenizer.eos_token_id),)
+        result = generator(messages,max_new_tokens=24,do_sample=False,pad_token_id=(generator.tokenizer.eos_token_id),)
         return self.parse_decision(self.generated_content(result))
 
     # user most recent saved check-in
@@ -576,7 +563,7 @@ class SolaceAgent:
         )
 
         # concise reply without random sampling
-        result = generator(messages,max_new_tokens=128,do_sample=False,pad_token_id=(generator.tokenizer.eos_token_id))
+        result = generator(messages,max_new_tokens=80,do_sample=False,pad_token_id=(generator.tokenizer.eos_token_id))
         answer = self.generated_content(result)
         # helpful fallback if the generated reply is empty
         if not answer:

@@ -3,7 +3,7 @@ from PySide6.QtGui import QPixmap
 from pathlib import Path
 from UI.ui.account_widgets import PasswordEdit, PasswordRequirementsBar
 import re
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QTimer
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QLineEdit, QPushButton, QVBoxLayout, QWidget
 from UI.ui.login_page import BrandPanel
 from UI.ui.ui_components import FloatCard
@@ -42,6 +42,7 @@ ENGLISH_TEXT.update(REGISTER_TEXT)
 class RegisterPage(QWidget):
     def __init__(self):
         super().__init__()
+        self.setFocusPolicy(Qt.ClickFocus)
         self.current_language = "English"
 
         # main registration card
@@ -306,3 +307,5 @@ class RegisterPage(QWidget):
     def showEvent(self, event):
         super().showEvent(event)
         self.card_host.play()
+        # Keep focus off the fields when the page opens
+        QTimer.singleShot(0, self.setFocus)

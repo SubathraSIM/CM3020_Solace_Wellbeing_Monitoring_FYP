@@ -19,8 +19,11 @@ __pycache__/
 *.pyo
 .pytest_cache/
 
-# User's recordings
+# User's recordings are not uploaded to github due to privacy issue
 User_testing/Recordings/
 
 # Functional testing raw recordings not included due to huge size
 data/raw/Functional_Testing/
+
+# Consent Forms are not uploaded to github due to privacy issue
+User_testing/Consent Forms/

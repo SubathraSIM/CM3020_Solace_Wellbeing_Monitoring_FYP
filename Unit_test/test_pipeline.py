@@ -37,9 +37,6 @@ def test_label_name():
     assert label_name("Happy") == "happy"
     assert label_name("Joy") == "happy"
     assert label_name("Neutral") == "neutral"
-    assert label_name("label_0") == "anger"
-    assert label_name("label_3") == "happy"
-    assert label_name("label_6") == "neutral"
 
 
 # Test case 3: Check that flat and nested model outputs are handled correctly
