@@ -2,7 +2,7 @@
 A local, multimodal AI desktop application that transforms a one-minute audio or video check-in into a private wellbeing indicator, a trend over time, a supportive recommendation, and a chat assistant to help healthcare workers detect early, burnout-related strain.
 
 ## Overview
-Solace orchestrates **six pre-trained models** for text, audio, vision, transcription, translation and language generation. A single short check-in generates a fused wellbeing score, which is compared to the user’s personal baseline to flag an early-warning signal, and a brief, non-diagnostic recommendation. All processing is **local to the user's device** raw audio and video are analysed and then discarded, and only derived scores and text are stored. Check-in and recommendations can be done in **English, Malay, Chinese and Tamil**. Solace is an early-awareness tool, **not** a medical diagnostic service.
+Solace orchestrates six pre-trained models for text, audio, vision, transcription, translation and language generation. A single short check-in generates a fused wellbeing score, which is compared to the user’s personal baseline to flag an early-warning signal, and a brief, non-diagnostic recommendation. All processing is local to the user's device raw audio and video are analysed and then discarded, and only derived scores and text are stored. Check-in and recommendations can be done in English, Malay, Chinese and Tamil. Solace is an early-awareness tool, **not** a medical diagnostic service.
 
 ## Features
 
@@ -77,8 +77,8 @@ python main.py
 
 ## Data Availability
 
-- **data/processed/** — the processed datasets used for model evaluation are included, so the model comparison results can be reproduced.
-- **data/raw/Functional_Testing/** — the raw recordings for Functional Testing are **not included** due to their large size. Their processed versions are available in **data/processed/**.
+- **data/processed/** - the processed datasets used for model evaluation are included, so the model comparison results can be reproduced.
+- **data/raw/Functional_Testing/** - the raw recordings for Functional Testing are **not included** due to their large size. Their processed versions are available in **data/processed/**.
 - **User check-in videos and signed consent forms are not included** for privacy and ethics reasons. As a result, the **cbi_validation.ipynb notebook cannot be re-run end-to-end**, because it depends on the participants' original recordings, which are not shared.
 
 ## Testing
