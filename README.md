@@ -58,7 +58,7 @@ cd CM3020_Solace_Wellbeing_Monitoring_FYP
 # 2. Create and activate virtual environment
 python -m venv venv
 # Windows:
-venv\Scripts\activate
+source venv/Scripts/activate
 # macOS / Linux:
 source venv/bin/activate
 
