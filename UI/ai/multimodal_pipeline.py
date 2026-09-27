@@ -536,7 +536,7 @@ class MultimodalPipeline:
                 "content": ("Write exactly 3 short wellbeing recommendations in English.\n"
                     "Write each recommendation on a separate numbered line.\n"
                     "Make each recommendation different and practical.\n"
-                    "Do not repeat ideas."
+                    "Do not repeat ideas.\n"
                     f"{support_note}\n\n"
                     f"Wellbeing score: "
                     f"{wellbeing_score:.0f}/100\n"

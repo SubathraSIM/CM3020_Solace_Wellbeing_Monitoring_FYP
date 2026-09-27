@@ -446,7 +446,7 @@ class MainWindow(QMainWindow):
             return
         # Reset check in page after the account is deleted
         self.check_in_page.reset_page()
-        self.logout_user()
+        self.logout_user(confirm=False)
 
     # app being closed
     def closeEvent(self, event):

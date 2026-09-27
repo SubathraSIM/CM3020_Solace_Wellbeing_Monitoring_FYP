@@ -49,7 +49,7 @@ Check-ins:
 - Whisper creates the speech transcript.
 - RoBERTa analyses emotion in the English working transcript.
 - MERaLiON analyses emotion in the voice.
-- ViT analyses facial-expression emotion when video is used.
+- DDAMFN++ analyses facial-expression emotion when video is used.
 - Five supporting signals are available: blink rate, head position, speech rate, disfluency and lexical variety.
 - The model scores and supporting signals are fused into a wellbeing score from 0 to 100. A higher score represents a higher estimated wellbeing range.
 - Scores of 67 or above are shown as the higher range, 34 to 66 as the moderate range, and below 34 as the lower range.

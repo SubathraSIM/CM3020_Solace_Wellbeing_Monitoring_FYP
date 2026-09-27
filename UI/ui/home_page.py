@@ -59,9 +59,6 @@ class HoverSidebar(QFrame):
     EXPANDED = 196
     _shared_expanded = True
 
-    # open or closed state across pages
-    _shared_expanded = True
-
     def __init__(self):
         super().__init__()
         self.current_language = "English"
